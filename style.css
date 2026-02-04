@@ -1,5 +1,8 @@
 body {
-    background: #222;
+    background: white;
+    /* was #222 */
+    color: black;
+    /* add this */
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -8,15 +11,19 @@ body {
     margin: 0;
 }
 
+
 .card {
     width: 360px;
     border: 2px solid #ccc;
-    color: white;
-    background: #2b2b2b;
+    color: black;
+    /* was white */
+    background: white;
+    /* was #2b2b2b */
 }
 
 .row {
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid #ccc;
+    /* lighter line for white bg */
     padding: 14px;
 }
 
@@ -40,10 +47,13 @@ input,
 textarea {
     width: 100%;
     padding: 6px;
-    border: none;
+    border: 1px solid #ccc;
+    /* add border so they’re visible on white */
     outline: none;
-    background: #333;
-    color: white;
+    background: white;
+    /* was #333 */
+    color: black;
+    /* was white */
 }
 
 textarea {
