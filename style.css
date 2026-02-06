@@ -78,3 +78,28 @@ button {
 button:hover {
     background-color: #004099;
 }
+
+.time-slot {
+    display: block;
+    margin-bottom: 12px;
+    padding: 12px;
+    background-color: #f0f7ff;
+    border: 2px solid #99b3ff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-slot:hover {
+    background-color: #e6f0ff;
+    border-color: #0057b7;
+}
+
+.time-slot input[type="radio"] {
+    margin-right: 10px;
+    width: auto;
+}
+
+.time-slot label {
+    display: contents;
+}
