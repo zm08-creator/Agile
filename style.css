@@ -154,3 +154,23 @@ button:hover {
     background-color: #0057b7;
     color: #ffffff;
 }
+
+.detail-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.details-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+@media (max-width: 600px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-item.full-width {
+        grid-column: 1;
+    }
+}

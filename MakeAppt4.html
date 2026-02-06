@@ -12,7 +12,7 @@
             <h1>Health Matters</h1>
 
             <div class="confirmation">
-                <h2>Appointment Confirmed! ✅</h2>
+                <h2>Appointment Confirmed</h2>
 
                 <div class="details-grid">
                     <div class="detail-item">
@@ -35,6 +35,10 @@
                         <span id="appt-time"></span>
                     </div>
                 </div>
+                <div class="detail-item full-width">
+                    <strong>Reference Number:</strong>
+                    <span id="ref-number"></span>
+                </div>
 
                 <div class="form-actions" style="margin-top: 30px;">
                     <a href="MakeAppt1.html" class="btn-back">Book Another Appointment</a>
@@ -46,19 +50,32 @@
             // Get URL parameters
             const urlParams = new URLSearchParams(window.location.search);
 
-            // Extract form data from previous pages
+            // Fill form data
             document.getElementById('user-name').textContent =
                 urlParams.get('name') || 'Not provided';
-
             document.getElementById('user-dob').textContent =
                 urlParams.get('dob') || 'Not provided';
-
             document.getElementById('appt-date').textContent =
                 urlParams.get('appt-date') || 'Not provided';
-
             document.getElementById('appt-time').textContent =
                 urlParams.get('time-slot') || 'Not provided';
+
+            // Generate unique reference number (format: HM260206AB123)
+            const now = new Date();
+            const yearShort = now.getFullYear().toString().slice(-2);
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const randomLetters = 'ABCDEFGHJKMNPQRSTUVWXYZ'; // No I, O, 0 for clarity
+            const randomNums = '123456789';
+
+            const refCode = 'HM' + yearShort + month + day +
+                randomLetters[Math.floor(Math.random() * 21)] +
+                randomLetters[Math.floor(Math.random() * 21)] +
+                Math.floor(Math.random() * 900 + 100);
+
+            document.getElementById('ref-number').textContent = refCode;
         </script>
+
     </body>
 
 </html>
