@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Health Matters - Appointment Confirmed</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Health Matters</h1>
+
+            <div class="confirmation">
+                <h2>Appointment Confirmed! ✅</h2>
+
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <strong>Name:</strong>
+                        <span id="user-name"></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Date of Birth:</strong>
+                        <span id="user-dob"></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Appointment Date:</strong>
+                        <span id="appt-date"></span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Time Slot:</strong>
+                        <span id="appt-time"></span>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 30px;">
+                    <a href="MakeAppt1.html" class="btn-back">Book Another Appointment</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Extract form data from previous pages
+            document.getElementById('user-name').textContent =
+                urlParams.get('name') || 'Not provided';
+
+            document.getElementById('user-dob').textContent =
+                urlParams.get('dob') || 'Not provided';
+
+            document.getElementById('appt-date').textContent =
+                urlParams.get('appt-date') || 'Not provided';
+
+            document.getElementById('appt-time').textContent =
+                urlParams.get('time-slot') || 'Not provided';
+        </script>
+    </body>
+
+</html>
