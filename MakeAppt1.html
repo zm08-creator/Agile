@@ -2,70 +2,58 @@
 <html lang="en">
 
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
         <title>Health Matters</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
+        <div class="container">
+            <h1>Health Matters</h1>
 
-        <div class="card">
+            <form action="MakeAppt2.html" method="get">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
 
-            <div class="row title">
-                Health Matters
-            </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
 
-            <div class="row">
-                <label for="name">Name:</label>
-                <input id="name" type="text">
-            </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
 
-            <div class="row">
-                <label for="dob">DOB:</label>
-                <input id="dob" type="date">
-            </div>
-
-            <div class="row">
-                <label for="address">Address:</label>
-                <input id="address" type="text">
-            </div>
-
-            <div class="row location-row">
-
-                <span class="location-label">Location:</span>
-
-                <div class="radio-group">
+                <div class="form-group">
+                    <span>Preferred Location:</span>
                     <label>
-                        <input type="radio" name="location" value="Preston">
+                        <input type="radio" name="location" value="preston" required>
                         Preston
                     </label>
-
                     <label>
-                        <input type="radio" name="location" value="Burnley">
+                        <input type="radio" name="location" value="burnley">
                         Burnley
                     </label>
-
                     <label>
-                        <input type="radio" name="location" value="West Lakes">
+                        <input type="radio" name="location" value="west-lakes">
                         West Lakes
                     </label>
                 </div>
 
-            </div>
+                <div class="form-group">
+                    <label for="discussion">What would you like to discuss?</label>
+                    <textarea id="discussion" name="discussion" rows="4" required></textarea>
+                </div>
 
-            <div class="row">
-                <label for="discussion">What would you like to discuss?</label>
-                <textarea id="discussion"></textarea>
-            </div>
+                <div class="form-actions">
+                    <button type="submit">Next</button>
+                </div>
 
-            <div class="row button-row">
-                <button class="next-btn" onclick="window.location.href='MakeAppt2.html'">
-                    Next
-                </button>
-            </div>
-
+            </form>
         </div>
-
     </body>
 
 </html>
