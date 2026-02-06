@@ -28,6 +28,11 @@
                 const today = new Date().toISOString().split('T')[0];
                 document.getElementById('appt-date').min = today;
             });
+
+            document.querySelector('form').addEventListener('submit', function (e) {
+                sessionStorage.setItem('apptDate', document.getElementById('appt-date').value);
+            });
+
         </script>
 
     </body>

@@ -54,6 +54,16 @@
 
             </form>
         </div>
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                sessionStorage.setItem('userName', document.getElementById('name').value);
+                sessionStorage.setItem('userDOB', document.getElementById('dob').value);
+                sessionStorage.setItem('userAddress', document.getElementById('address').value);
+                sessionStorage.setItem('userLocation', document.querySelector('input[name="location"]:checked').value);
+            });
+        </script>
+
+
     </body>
 
 </html>

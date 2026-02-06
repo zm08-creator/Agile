@@ -51,6 +51,13 @@
                 </div>
             </form>
         </div>
+
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                sessionStorage.setItem('apptTime', document.querySelector('input[name="time-slot"]:checked').value);
+            });
+        </script>
+
     </body>
 
 </html>

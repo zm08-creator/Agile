@@ -21,9 +21,10 @@
                     </div>
 
                     <div class="detail-item">
-                        <strong>Date of Birth:</strong>
-                        <span id="user-dob"></span>
+                        <strong>Location:</strong>
+                        <span id="user-location"></span>
                     </div>
+
 
                     <div class="detail-item">
                         <strong>Appointment Date:</strong>
@@ -35,10 +36,11 @@
                         <span id="appt-time"></span>
                     </div>
                 </div>
-                <div class="detail-item full-width">
+                <div class="detail-item" style="grid-column: 1 / -1;">
                     <strong>Reference Number:</strong>
                     <span id="ref-number"></span>
                 </div>
+
 
                 <div class="form-actions" style="margin-top: 30px;">
                     <a href="MakeAppt1.html" class="btn-back">Book Another Appointment</a>
@@ -47,34 +49,40 @@
         </div>
 
         <script>
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Script running');
 
-            // Fill form data
-            document.getElementById('user-name').textContent =
-                urlParams.get('name') || 'Not provided';
-            document.getElementById('user-dob').textContent =
-                urlParams.get('dob') || 'Not provided';
-            document.getElementById('appt-date').textContent =
-                urlParams.get('appt-date') || 'Not provided';
-            document.getElementById('appt-time').textContent =
-                urlParams.get('time-slot') || 'Not provided';
+                // Get data from sessionStorage
+                const name = sessionStorage.getItem('userName') || 'Not provided';
+                const date = sessionStorage.getItem('apptDate') || 'Not provided';
+                const time = sessionStorage.getItem('apptTime') || 'Not provided';
+                const location = sessionStorage.getItem('userLocation') || 'Not provided';
 
-            // Generate unique reference number (format: HM260206AB123)
-            const now = new Date();
-            const yearShort = now.getFullYear().toString().slice(-2);
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const randomLetters = 'ABCDEFGHJKMNPQRSTUVWXYZ'; // No I, O, 0 for clarity
-            const randomNums = '123456789';
+                document.getElementById('user-name').textContent = name;
+                document.getElementById('appt-date').textContent = date;
+                document.getElementById('appt-time').textContent = time;
+                document.getElementById('user-location').textContent =
+                    location.replace(/\b\w/g, l => l.toUpperCase());
 
-            const refCode = 'HM' + yearShort + month + day +
-                randomLetters[Math.floor(Math.random() * 21)] +
-                randomLetters[Math.floor(Math.random() * 21)] +
-                Math.floor(Math.random() * 900 + 100);
+                // Generate reference number
+                const now = new Date();
+                const yearShort = now.getFullYear().toString().slice(-2);
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const randomLetters = 'ABCDEFGHJKMNPQRSTUVWXYZ';
 
-            document.getElementById('ref-number').textContent = refCode;
+                const refNum = 'HM' + yearShort + month + day +
+                    randomLetters[Math.floor(Math.random() * 21)] +
+                    randomLetters[Math.floor(Math.random() * 21)] +
+                    Math.floor(Math.random() * 900 + 100);
+
+                console.log('Reference:', refNum);
+                document.getElementById('ref-number').textContent = refNum;
+            });
         </script>
+
+
+
 
     </body>
 
