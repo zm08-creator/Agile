@@ -3,81 +3,32 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Make Appointment - Calendar</title>
+        <title>Health Matters - Choose Appointment</title>
         <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
+        <div class="container">
+            <h1>Health Matters</h1>
 
-        <div class="calendar-card">
-
-            <!-- Month / Year header -->
-            <div class="calendar-header">
-                <span class="month-year">March 2026</span>
-            </div>
-
-            <!-- Calendar body -->
-            <div class="calendar-body">
-
-                <!-- Days row (Mon - Sun) -->
-                <div class="calendar-days-row">
-                    <div class="day-cell">Mon</div>
-                    <div class="day-cell">Tue</div>
-                    <div class="day-cell">Wed</div>
-                    <div class="day-cell">Thu</div>
-                    <div class="day-cell">Fri</div>
-                    <div class="day-cell">Sat</div>
-                    <div class="day-cell">Sun</div>
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="appt-date">Preferred appointment date:</label>
+                    <input type="date" id="appt-date" name="appt-date" required>
                 </div>
 
-                <!-- Dates grid (all the different dates) -->
-                <div class="calendar-dates-grid">
-                    <!-- Example for a 5‑week month, 7 columns -->
-                    <!-- Empty cells for days before the 1st -->
-                    <div class="date-cell empty"></div>
-                    <div class="date-cell empty"></div>
-                    <div class="date-cell">1</div>
-                    <div class="date-cell">2</div>
-                    <div class="date-cell">3</div>
-                    <div class="date-cell">4</div>
-                    <div class="date-cell">5</div>
-
-                    <div class="date-cell">6</div>
-                    <div class="date-cell">7</div>
-                    <div class="date-cell">8</div>
-                    <div class="date-cell">9</div>
-                    <div class="date-cell">10</div>
-                    <div class="date-cell">11</div>
-                    <div class="date-cell">12</div>
-
-                    <div class="date-cell">13</div>
-                    <div class="date-cell">14</div>
-                    <div class="date-cell">15</div>
-                    <div class="date-cell">16</div>
-                    <div class="date-cell">17</div>
-                    <div class="date-cell">18</div>
-                    <div class="date-cell">19</div>
-
-                    <div class="date-cell">20</div>
-                    <div class="date-cell">21</div>
-                    <div class="date-cell">22</div>
-                    <div class="date-cell">23</div>
-                    <div class="date-cell">24</div>
-                    <div class="date-cell">25</div>
-                    <div class="date-cell">26</div>
-
-                    <div class="date-cell">27</div>
-                    <div class="date-cell">28</div>
-                    <div class="date-cell">29</div>
-                    <div class="date-cell">30</div>
-                    <div class="date-cell">31</div>
-                    <!-- Extra empty cells if needed to fill the row -->
-                    <div class="date-cell empty"></div>
-                    <div class="date-cell empty"></div>
+                <div class="form-actions">
+                    <button type="submit">Confirm</button>
                 </div>
-
-            </div>
+            </form>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('appt-date').min = today;
+            });
+        </script>
 
     </body>
 
