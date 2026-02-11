@@ -187,6 +187,10 @@ button.full-width,
     display: none;
 }
 
+#credentials {
+    display: none;
+}
+
 /* Responsive design */
 @media (max-width: 600px) {
 
