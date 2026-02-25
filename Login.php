@@ -17,12 +17,11 @@ $error = "";
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $role = $_POST["role"] ?? "";
     $username = trim($_POST["username"] ?? "");
     $password = trim($_POST["password"] ?? "");
 
-    if ($role === "" || $username === "" || $password === "") {
-        $error = "Please select a role and enter username and password.";
+    if ($username === "" || $password === "") {
+        $error = "Please enter username and password.";
     } else {
 
         // Prepare SQL statement
@@ -42,25 +41,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (password_verify($password, $password_hash)) {
 
-                // Role check for demo users
-                if (
-                    ($username === "patient" && $role === "patient") ||
-                    ($username === "professional" && $role === "practitioner") ||
-                    ($username === "admin" && $role === "admin")
-                ) {
-
-                    // Set session variables
-                    $_SESSION["user_id"] = $id;
-                    $_SESSION["username"] = $username;
-                    $_SESSION["role"] = $role;
-
-                    // Redirect to first booking page
-                    header("Location: MakeAppt1.php");
-                    exit;
-
-                } else {
-                    $error = "Selected role does not match user.";
+                // Determine role automatically based on username
+                switch ($username) {
+                    case "patient":
+                        $role = "patient";
+                        break;
+                    case "professional":
+                        $role = "practitioner";
+                        break;
+                    case "admin":
+                        $role = "admin";
+                        break;
+                    default:
+                        $role = "unknown"; // fallback
                 }
+
+                $_SESSION["user_id"] = $id;
+                $_SESSION["username"] = $username;
+                $_SESSION["role"] = $role;
+
+                header("Location: MakeAppt1.php");
+                exit;
 
             } else {
                 $error = "Invalid password.";
@@ -91,17 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="post" action="Login.php">
-        <label for="role">Select Role</label>
-        <select id="role" name="role" required>
-            <option value="">-- Choose Role --</option>
-            <option value="practitioner">Practitioner</option>
-            <option value="patient">Patient</option>
-            <option value="admin">Admin</option>
-        </select>
-
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
-
         <button type="submit">Login</button>
     </form>
 </div>
