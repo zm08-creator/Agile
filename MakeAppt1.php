@@ -1,17 +1,43 @@
 <?php
-// Initialize variables to avoid errors
-$name = $dob = $address = $location = $discussion = "";
+session_start();
 
-// Check if form was submitted
+// Initialize variables
+$name = $dob = $address = $location = $discussion = "";
+$errors = [];
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $name = $_POST["name"] ?? "";
-    $dob = $_POST["dob"] ?? "";
-    $address = $_POST["address"] ?? "";
-    $location = $_POST["location"] ?? "";
-    $discussion = $_POST["discussion"] ?? "";
+
+    // Sanitize input
+    $name = trim($_POST["name"] ?? "");
+    $dob = trim($_POST["dob"] ?? "");
+    $address = trim($_POST["address"] ?? "");
+    $location = trim($_POST["location"] ?? "");
+    $discussion = trim($_POST["discussion"] ?? "");
+
+    // Basic validation
+    if (!$name) $errors[] = "Name is required.";
+    if (!$dob) $errors[] = "Date of Birth is required.";
+    if (!$address) $errors[] = "Address is required.";
+    if (!$location) $errors[] = "Preferred location is required.";
+    if (!$discussion) $errors[] = "Discussion details are required.";
+
+    // If no validation errors, store in session and redirect
+    if (empty($errors)) {
+
+        $_SESSION["appointment"] = [
+            "name" => $name,
+            "dob" => $dob,
+            "address" => $address,
+            "location" => $location,
+            "discussion" => $discussion
+        ];
+
+        header("Location: MakeAppt2.php");
+        exit;
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,20 +45,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 <div class="container">
     <h1>Health Matters</h1>
 
-    <form method="post" action="">
+    <?php if (!empty($errors)): ?>
+        <div class="error-messages">
+            <?php foreach ($errors as $error): ?>
+                <p><?= htmlspecialchars($error) ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <form method="post" action="MakeAppt1.php">
+
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required value="<?= htmlspecialchars($name) ?>">
+            <input type="text" id="name" name="name" required
+                   value="<?= htmlspecialchars($name) ?>">
         </div>
 
         <div class="form-group">
             <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" required value="<?= htmlspecialchars($dob) ?>">
+            <input type="date" id="dob" name="dob" required
+                   value="<?= htmlspecialchars($dob) ?>">
         </div>
 
         <div class="form-group">
@@ -42,16 +78,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <div class="form-group">
             <span>Preferred Location:</span>
+
             <label>
-                <input type="radio" name="location" value="preston" required <?= $location === "preston" ? "checked" : "" ?>>
+                <input type="radio" name="location" value="preston"
+                    <?= $location === "preston" ? "checked" : "" ?> required>
                 Preston
             </label>
+
             <label>
-                <input type="radio" name="location" value="burnley" <?= $location === "burnley" ? "checked" : "" ?>>
+                <input type="radio" name="location" value="burnley"
+                    <?= $location === "burnley" ? "checked" : "" ?>>
                 Burnley
             </label>
+
             <label>
-                <input type="radio" name="location" value="west-lakes" <?= $location === "west-lakes" ? "checked" : "" ?>>
+                <input type="radio" name="location" value="west-lakes"
+                    <?= $location === "west-lakes" ? "checked" : "" ?>>
                 West Lakes
             </label>
         </div>
@@ -62,19 +104,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
 
         <div class="form-actions">
-            <button type="submit">Submit</button>
+            <button type="submit">Next Step</button>
         </div>
+
     </form>
-
-    <?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
-        <h2>Submitted Information</h2>
-        <p><strong>Name:</strong> <?= htmlspecialchars($name) ?></p>
-        <p><strong>DOB:</strong> <?= htmlspecialchars($dob) ?></p>
-        <p><strong>Address:</strong> <?= htmlspecialchars($address) ?></p>
-        <p><strong>Location:</strong> <?= htmlspecialchars($location) ?></p>
-        <p><strong>Discussion:</strong> <?= htmlspecialchars($discussion) ?></p>
-    <?php endif; ?>
-
 </div>
 </body>
 </html>
