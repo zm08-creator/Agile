@@ -17,7 +17,68 @@ $day = date("d");
 
 $letters = "ABCDEFGHJKMNPQRSTUVWXYZ";
 $refNumber =
+    "HM" .<?php
+session_start();
+require_once "config/db.php";
+
+if (!isset($_SESSION["appointment"])) {
+    header("Location: MakeAppt1.php");
+    exit;
+}
+
+$appt = $_SESSION["appointment"];
+
+$name       = $appt["name"];
+$dob        = $appt["dob"];
+$address    = $appt["address"];
+$location   = $appt["location"];
+$discussion = $appt["discussion"];
+$date       = $appt["appt_date"];
+$time       = $appt["appt_time"];
+
+$locationFormatted = ucwords(str_replace("-", " ", $location));
+
+$yearShort = date("y");
+$month = date("m");
+$day = date("d");
+$letters = "ABCDEFGHJKMNPQRSTUVWXYZ";
+
+$refNumber =
     "HM" .
+    $yearShort .
+    $month .
+    $day .
+    $letters[random_int(0, strlen($letters) - 1)] .
+    $letters[random_int(0, strlen($letters) - 1)] .
+    random_int(100, 999);
+
+// Insert into database
+$userId = $_SESSION["user_id"];
+
+$stmt = $conn->prepare("
+    INSERT INTO appointments 
+    (user_id, full_name, dob, address, location, discussion, appointment_date, appointment_time)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+");
+
+$stmt->bind_param(
+    "isssssss",
+    $userId,
+    $name,
+    $dob,
+    $address,
+    $location,
+    $discussion,
+    $date,
+    $time
+);
+
+$stmt->execute();
+$stmt->close();
+
+// Clear session appointment data
+unset($_SESSION["appointment"]);
+?>
     $yearShort .
     $month .
     $day .
