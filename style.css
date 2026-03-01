@@ -1,37 +1,82 @@
-/* Reset */
+/* =======================
+   GLOBAL RESET & FONTS
+======================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f9fb;
+    color: #156082;
+    min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Page background */
-body {
-    background-color: #f4f9fb; /* soft white-blue */
-    color: #156082;
-    min-height: 100vh;
+/* =======================
+   TOP NAVIGATION BAR
+======================= */
+.navbar {
+    width: 100%;
+    background-color: #156082;
+    padding: 14px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Main containers */
+.navbar .logo {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   MAIN CONTAINERS
+======================= */
 .container,
 .login-container {
     max-width: 600px;
     margin: 60px auto;
     background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(21, 96, 130, 0.15);
+    padding: 35px 45px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(21, 96, 130, 0.15);
 }
 
-/* Headings */
-h1, h2 {
+/* =======================
+   HEADINGS
+======================= */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #156082;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+h2 {
     text-align: center;
     margin-bottom: 25px;
     color: #156082;
+    font-size: 20px;
 }
 
-/* Form groups */
+/* =======================
+   FORM ELEMENTS
+======================= */
 .form-group {
     margin-bottom: 20px;
 }
@@ -40,6 +85,7 @@ label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
+    font-size: 14px;
 }
 
 /* Inputs */
@@ -49,15 +95,24 @@ input[type="date"],
 textarea,
 select {
     width: 100%;
-    padding: 10px;
+    padding: 11px;
     border: 1px solid #156082;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 15px;
+    background-color: #ffffff;
 }
 
-/* Radio buttons */
-.time-slot,
-.form-group label {
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #0f4a63;
+}
+
+/* =======================
+   RADIO BUTTONS
+======================= */
+.time-slot {
     display: block;
     margin-bottom: 8px;
     cursor: pointer;
@@ -67,29 +122,46 @@ input[type="radio"] {
     margin-right: 8px;
 }
 
-/* Buttons */
-button,
-.btn-back {
-    display: inline-block;
-    width: 100%;
-    padding: 12px;
+/* =======================
+   BUTTONS
+======================= */
+button {
+    padding: 12px 18px;
     background-color: #156082;
     color: #ffffff;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
 }
 
-button:hover,
-.btn-back:hover {
+button:hover {
     background-color: #0f4a63;
 }
 
-/* Confirmation page */
+/* =======================
+   BACK & NEXT BUTTONS
+======================= */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+}
+
+.btn-back {
+    background-color: #ffffff;
+    color: #156082;
+    border: 2px solid #156082;
+}
+
+.btn-back:hover {
+    background-color: #f0f7fa;
+}
+
+/* =======================
+   CONFIRMATION PAGE
+======================= */
 .confirmation {
     text-align: center;
 }
@@ -98,24 +170,23 @@ button:hover,
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .detail-item {
     background-color: #f0f7fa;
-    padding: 12px;
-    border-radius: 5px;
+    padding: 14px;
+    border-radius: 6px;
     border-left: 5px solid #156082;
+    font-size: 14px;
 }
 
-/* Actions */
-.form-actions {
-    margin-top: 25px;
-}
-
-/* Errors */
+/* =======================
+   ERROR MESSAGES
+======================= */
 .error {
     color: #c0392b;
     text-align: center;
     margin-bottom: 15px;
+    font-weight: bold;
 }
