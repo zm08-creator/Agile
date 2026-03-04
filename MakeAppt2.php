@@ -27,14 +27,117 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Health Matters - Choose Appointment Date</title>
+    <title>Choose Appointment Date</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
-    <h1>Health Matters</h1>
 
-    <h2>Step 2: Choose Appointment Date</h2>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            background-color: #156082;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Page Container */
+        .page-wrapper {
+            width: 70%;
+            margin: 30px auto;
+        }
+
+        /* Page Heading */
+        .page-title {
+            font-family: 'Adlam Display', sans-serif;
+            font-size: 28px;
+            color: #156082;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #156082;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .error-messages p {
+            background: #ffdddd;
+            padding: 10px;
+            border-left: 4px solid red;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background-color: #156082;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #104a63;
+        }
+
+        .back-btn {
+            background-color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Top Navigation Bar -->
+<div class="navbar">
+    <a href="index.php">Home</a>
+    <a href="account.php">My Account</a>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- Page Heading -->
+    <h1 class="page-title">Choose Appointment Date</h1>
+    <h2 class="page-subtitle">Step 2</h2>
 
     <?php if (!empty($errors)): ?>
         <div class="error-messages">
@@ -58,11 +161,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             >
         </div>
 
-        <div class="form-actions">
-            <button type="submit">Continue</button>
+        <!-- Back + Continue Buttons -->
+        <div class="nav-buttons">
+            <a href="MakeAppt1.php" class="btn back-btn">Back</a>
+            <button type="submit" class="btn">Continue</button>
         </div>
 
     </form>
 </div>
+
 </body>
 </html>
