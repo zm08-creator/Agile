@@ -24,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Please enter username and password.";
     } else {
 
-        // Prepare SQL statement
         $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
@@ -41,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (password_verify($password, $password_hash)) {
 
-                // Determine role automatically based on username
                 switch ($username) {
                     case "patient":
                         $role = "patient";
@@ -53,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $role = "admin";
                         break;
                     default:
-                        $role = "unknown"; // fallback
+                        $role = "unknown";
                 }
 
                 $_SESSION["user_id"] = $id;
@@ -75,27 +73,133 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Health Matters - Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            background-color: #156082;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Page Container */
+        .page-wrapper {
+            width: 40%;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        /* Page Heading */
+        .page-title {
+            font-family: 'Adlam Display', sans-serif;
+            font-size: 32px;
+            color: #156082;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Login Box */
+        .login-box {
+            border: 2px solid #156082;
+            border-radius: 8px;
+            padding: 30px;
+            background: #f7faff;
+        }
+
+        .login-box input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #156082;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: #156082;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 95%;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #104a63;
+        }
+
+        .error-message {
+            background: #ffdddd;
+            padding: 10px;
+            border-left: 4px solid red;
+            margin-bottom: 15px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
+
 <body>
-<div class="login-container">
-    <h2>Login</h2>
 
-    <?php if ($error): ?>
-        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-
-    <form method="post" action="Login.php">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
+<!-- Top Navigation Bar -->
+<div class="navbar">
+    <a href="index.php">Home</a>
+    <a href="Login.php">My Account</a>
 </div>
+
+<div class="page-wrapper">
+
+    <!-- Page Heading -->
+    <h1 class="page-title">Login</h1>
+    <h2 class="page-subtitle">Access Your Account</h2>
+
+    <div class="login-box">
+
+        <?php if ($error): ?>
+            <div class="error-message">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="post" action="Login.php">
+            <input type="text" name="username" placeholder="Username" required>
+
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+    </div>
+</div>
+
 </body>
 </html>
