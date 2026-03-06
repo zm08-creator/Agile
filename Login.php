@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // Role-based redirect after login
 switch ($_SESSION["role"]) {
     case "patient":
-        header("Location: patient-dashboard.php");
+        header("Location: PatientDash.php");
         break;
     case "practitioner":
         header("Location: professional-dashboard.php");
