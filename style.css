@@ -238,3 +238,48 @@ button[type="submit"]:hover {
     margin: 0 auto;
     padding: 40px;
 }
+
+/* =======================
+   DASHBOARD STYLES
+======================= */
+.dashboard-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.dashboard-actions .btn {
+    padding: 20px 40px;
+    font-size: 18px;
+    min-width: 250px;
+}
+
+.user-info-card {
+    text-align: center;
+    margin-top: 40px;
+    padding: 25px;
+    background: #f0f7fa;
+    border-radius: 8px;
+    border-left: 5px solid #156082;
+}
+
+.user-info-card h3 {
+    color: #156082;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.user-info-card p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.logout-link {
+    color: #ff6b6b !important;
+}
+
+.logout-link:hover {
+    text-decoration: underline !important;
+}
