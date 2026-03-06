@@ -42,7 +42,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
             </a>
 
             <a href="ViewDetails.php" class="btn back-btn">
-                View My Appointments
+                View My Details
             </a>
         </div>
     </div>
