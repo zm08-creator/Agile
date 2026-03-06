@@ -74,7 +74,7 @@ unset($_SESSION["appointment"]);
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>
-        <a href="Login.php">My Account</a>
+        <a href="PatientDash.php">My Account</a>
     </div>
 
     <div class="page-wrapper">

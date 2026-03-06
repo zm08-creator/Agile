@@ -24,7 +24,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>
-        <a href="patient-dashboard.php">Dashboard</a>
+        <a href="PatientDash.php">Dashboard</a>
         <a href="?logout=1" class="logout-link">Logout</a>
     </div>
 

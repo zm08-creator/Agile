@@ -80,6 +80,7 @@ exit;
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +91,6 @@ exit;
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>
-        <a href="Login.php">My Account</a>
     </div>
 
     <div class="page-wrapper">
