@@ -30,15 +30,15 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
 
     <div class="page-wrapper">
         <h1 class="page-title">Welcome Back, <?= htmlspecialchars($_SESSION["username"]) ?>!</h1>
-        <h2 class="page-subtitle">What would you like to do today?</h2>
+        <h2 class="page-subtitle"> Please select an option</h2>
 
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
             <a href="MakeAppt1.php" class="btn" style="padding: 20px 40px; font-size: 18px;">
-                📅 Book New Appointment
+                Book New Appointment
             </a>
             
             <a href="my-appointments.php" class="btn back-btn" style="padding: 20px 40px; font-size: 18px;">
-                👀 View My Appointments
+                View My Appointments
             </a>
         </div>
 
