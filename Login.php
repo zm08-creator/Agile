@@ -54,8 +54,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["username"] = $username;
                 $_SESSION["role"] = $role;
 
-                header("Location: MakeAppt1.php");
-                exit;
+                // Role-based redirect after login
+switch ($_SESSION["role"]) {
+    case "patient":
+        header("Location: patient-dashboard.php");
+        break;
+    case "practitioner":
+        header("Location: professional-dashboard.php");
+        break;
+    case "admin":
+        header("Location: admin-dashboard.php");
+        break;
+    default:
+        header("Location: index.php");
+}
+exit;
             } else {
                 $error = "Invalid password.";
             }
