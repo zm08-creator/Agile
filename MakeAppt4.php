@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 session_start();
 require_once "config/db.php";
 
-// Ensure previous steps completed
 if (!isset($_SESSION["appointment"])) {
     header("Location: MakeAppt1.php");
     exit;
@@ -24,7 +23,6 @@ $time       = $appt["appt_time"]   ?? "";
 
 $locationFormatted = ucwords(str_replace("-", " ", $location));
 
-// Generate reference number
 $yearShort = date("y");
 $month = date("m");
 $day = date("d");
@@ -39,7 +37,6 @@ $refNumber =
     $letters[random_int(0, strlen($letters) - 1)] .
     random_int(100, 999);
 
-// Insert into database
 $userId = $_SESSION["user_id"] ?? null;
 
 if ($userId !== null) {
@@ -65,70 +62,73 @@ if ($userId !== null) {
     $stmt->close();
 }
 
-// Clear appointment data so refresh doesn’t re‑insert
 unset($_SESSION["appointment"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Health Matters - Appointment Confirmed</title>
+    <title>Appointment Confirmed - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="container">
-    <h1>Health Matters</h1>
+    <div class="navbar">
+        <a href="index.php">Home</a>
+        <a href="Login.php">My Account</a>
+    </div>
 
-    <div class="confirmation">
-        <h2>Appointment Confirmed</h2>
+    <div class="page-wrapper">
+        <h1 class="page-title">Appointment Confirmed</h1>
+        <h2 class="page-subtitle">Your booking has been successfully created</h2>
 
-        <div class="details-grid">
-            <div class="detail-item">
-                <strong>Name:</strong>
-                <span><?= htmlspecialchars($name) ?></span>
+        <div class="confirmation">
+            <div class="details-grid">
+                <div class="detail-item">
+                    <strong>Name:</strong>
+                    <span><?= htmlspecialchars($name) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>Date of Birth:</strong>
+                    <span><?= htmlspecialchars($dob) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>Address:</strong>
+                    <span><?= htmlspecialchars($address) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>Location:</strong>
+                    <span><?= htmlspecialchars($locationFormatted) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>What you want to discuss:</strong>
+                    <span><?= htmlspecialchars($discussion) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>Appointment Date:</strong>
+                    <span><?= htmlspecialchars($date) ?></span>
+                </div>
+
+                <div class="detail-item">
+                    <strong>Time Slot:</strong>
+                    <span><?= htmlspecialchars($time) ?></span>
+                </div>
+
+                <div class="detail-item" style="grid-column: 1 / -1; background: #e8f7e8; border-left-color: #27ae60;">
+                    <strong>Reference Number:</strong>
+                    <span style="font-size: 18px; font-weight: bold; color: #27ae60;"><?= htmlspecialchars($refNumber) ?></span>
+                </div>
             </div>
 
-            <div class="detail-item">
-                <strong>Date of Birth:</strong>
-                <span><?= htmlspecialchars($dob) ?></span>
+            <div class="nav-buttons" style="justify-content: center; margin-top: 40px;">
+                <a href="MakeAppt1.php" class="btn">Book Another Appointment</a>
+                <a href="index.php" class="btn back-btn">Finish</a>
             </div>
-
-            <div class="detail-item">
-                <strong>Address:</strong>
-                <span><?= htmlspecialchars($address) ?></span>
-            </div>
-
-            <div class="detail-item">
-                <strong>Location:</strong>
-                <span><?= htmlspecialchars($locationFormatted) ?></span>
-            </div>
-
-            <div class="detail-item">
-                <strong>What you want to discuss:</strong>
-                <span><?= htmlspecialchars($discussion) ?></span>
-            </div>
-
-            <div class="detail-item">
-                <strong>Appointment Date:</strong>
-                <span><?= htmlspecialchars($date) ?></span>
-            </div>
-
-            <div class="detail-item">
-                <strong>Time Slot:</strong>
-                <span><?= htmlspecialchars($time) ?></span>
-            </div>
-        </div>
-
-        <div class="detail-item" style="grid-column: 1 / -1;">
-            <strong>Reference Number:</strong>
-            <span><?= htmlspecialchars($refNumber) ?></span>
-        </div>
-
-        <div class="form-actions" style="margin-top: 30px;">
-            <a href="MakeAppt1.php" class="btn-back">Book Another Appointment</a>
         </div>
     </div>
-</div>
 </body>
 </html>

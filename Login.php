@@ -4,26 +4,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include database connection
 require_once "config/db.php";
 
 $error = "";
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
     $username = trim($_POST["username"] ?? "");
     $password = trim($_POST["password"] ?? "");
 
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
     } else {
-
         $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
@@ -34,20 +29,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->store_result();
 
         if ($stmt->num_rows === 1) {
-
             $stmt->bind_result($id, $password_hash);
             $stmt->fetch();
 
             if (password_verify($password, $password_hash)) {
-
                 switch ($username) {
                     case "patient":
+                    case "Patient":
                         $role = "patient";
                         break;
                     case "professional":
+                    case "Professional":
                         $role = "practitioner";
                         break;
                     case "admin":
+                    case "Admin":
                         $role = "admin";
                         break;
                     default:
@@ -60,11 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 header("Location: MakeAppt1.php");
                 exit;
-
             } else {
                 $error = "Invalid password.";
             }
-
         } else {
             $error = "User not found.";
         }
@@ -77,42 +71,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-
-    <!-- Link to your external stylesheet -->
+    <title>Login - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- Top Navigation Bar -->
-<div class="navbar">
-    <a href="index.php">Home</a>
-    <a href="Login.php">My Account</a>
-</div>
-
-<div class="page-wrapper">
-
-    <!-- Page Heading -->
-    <h1 class="page-title">Login</h1>
-    <h2 class="page-subtitle">Access Your Account</h2>
-
-    <div class="login-box">
-
-        <?php if ($error): ?>
-            <div class="error-message">
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="post" action="Login.php">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-
-            <button type="submit" class="btn">Login</button>
-        </form>
-
+    <div class="navbar">
+        <a href="index.php">Home</a>
+        <a href="Login.php">My Account</a>
     </div>
-</div>
 
+    <div class="page-wrapper">
+        <h1 class="page-title">Login</h1>
+        <h2 class="page-subtitle">Access Your Account</h2>
+
+        <div class="login-box">
+            <?php if ($error): ?>
+                <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+
+            <form method="post" action="Login.php">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+
+                <div class="nav-buttons">
+                    <a href="index.php" class="btn back-btn">Back</a>
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

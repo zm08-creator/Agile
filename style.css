@@ -1,5 +1,5 @@
 /* =======================
-   GLOBAL RESET & FONTS
+   GLOBAL RESET & BASE
 ======================= */
 * {
     margin: 0;
@@ -8,190 +8,15 @@
 }
 
 body {
-    background-color: #f4f9fb;
+    font-family: Arial, sans-serif;
+    background: #f4f9fb;
     color: #156082;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
 }
 
 /* =======================
    TOP NAVIGATION BAR
 ======================= */
-.navbar {
-    width: 100%;
-    background-color: #156082;
-    padding: 14px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar .logo {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.navbar a {
-    color: #ffffff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 15px;
-}
-
-.navbar a:hover {
-    text-decoration: underline;
-}
-
-/* =======================
-   MAIN CONTAINERS
-======================= */
-.container,
-.login-container {
-    max-width: 600px;
-    margin: 60px auto;
-    background-color: #ffffff;
-    padding: 35px 45px;
-    border-radius: 10px;
-    box-shadow: 0 6px 18px rgba(21, 96, 130, 0.15);
-}
-
-/* =======================
-   HEADINGS
-======================= */
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #156082;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #156082;
-    font-size: 20px;
-}
-
-/* =======================
-   FORM ELEMENTS
-======================= */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-/* Inputs */
-input[type="text"],
-input[type="password"],
-input[type="date"],
-textarea,
-select {
-    width: 100%;
-    padding: 11px;
-    border: 1px solid #156082;
-    border-radius: 6px;
-    font-size: 15px;
-    background-color: #ffffff;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: #0f4a63;
-}
-
-/* =======================
-   RADIO BUTTONS
-======================= */
-.time-slot {
-    display: block;
-    margin-bottom: 8px;
-    cursor: pointer;
-}
-
-input[type="radio"] {
-    margin-right: 8px;
-}
-
-/* =======================
-   BUTTONS
-======================= */
-button {
-    padding: 12px 18px;
-    background-color: #156082;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0f4a63;
-}
-
-/* =======================
-   BACK & NEXT BUTTONS
-======================= */
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 35px;
-}
-
-.btn-back {
-    background-color: #ffffff;
-    color: #156082;
-    border: 2px solid #156082;
-}
-
-.btn-back:hover {
-    background-color: #f0f7fa;
-}
-
-/* =======================
-   CONFIRMATION PAGE
-======================= */
-.confirmation {
-    text-align: center;
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 25px;
-}
-
-.detail-item {
-    background-color: #f0f7fa;
-    padding: 14px;
-    border-radius: 6px;
-    border-left: 5px solid #156082;
-    font-size: 14px;
-}
-
-/* =======================
-   ERROR MESSAGES
-======================= */
-.error {
-    color: #c0392b;
-    text-align: center;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-/* Top Navigation Bar */
 .navbar {
     background-color: #156082;
     color: white;
@@ -205,47 +30,90 @@ button:hover {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px;
 }
 
-/* Page Container */
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   PAGE LAYOUT
+======================= */
 .page-wrapper {
-    width: 40%;
-    margin: 50px auto;
-    text-align: center;
+    width: 70%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
 }
 
-/* Page Heading */
+/* =======================
+   PAGE HEADINGS
+======================= */
 .page-title {
-    font-family: 'Adlam Display', sans-serif;
-    font-size: 32px;
+    font-size: 28px;
     color: #156082;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .page-subtitle {
     font-size: 18px;
     color: #333;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-/* Login Box */
-.login-box {
-    border: 2px solid #156082;
-    border-radius: 8px;
-    padding: 30px;
-    background: #f7faff;
+/* =======================
+   FORM STYLING
+======================= */
+.form-group {
+    margin-bottom: 18px;
 }
 
-.login-box input {
-    width: 90%;
-    padding: 12px;
-    margin: 10px 0;
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: #156082;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
     border: 2px solid #156082;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 15px;
+    transition: border-color 0.3s;
 }
 
-.btn {
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #104a63;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Radio buttons */
+label input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.btn,
+button[type="submit"] {
     background-color: #156082;
     color: white;
     padding: 12px 25px;
@@ -253,20 +121,120 @@ button:hover {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    width: 95%;
-    margin-top: 15px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
-.btn:hover {
+.btn:hover,
+button[type="submit"]:hover {
     background-color: #104a63;
 }
 
+.back-btn {
+    background-color: #888;
+}
+
+.back-btn:hover {
+    background-color: #666;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+/* =======================
+   ERROR MESSAGES
+======================= */
+.error-messages,
 .error-message {
     background: #ffdddd;
     padding: 10px;
     border-left: 4px solid red;
-    margin-bottom: 15px;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.error-messages p,
+.error-message {
+    margin: 0;
+    color: #c0392b;
+}
+
+/* =======================
+   TIME SLOTS (MakeAppt3)
+======================= */
+.time-slot {
+    display: block;
+    padding: 12px;
+    border: 2px solid #156082;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #f9fcff;
+    transition: all 0.3s;
+}
+
+.time-slot:hover {
+    background: #e8f2f8;
+    border-color: #104a63;
+}
+
+.time-slot input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* =======================
+   CONFIRMATION (MakeAppt4)
+======================= */
+.confirmation {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.detail-item {
+    background-color: #f0f7fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 5px solid #156082;
+}
+
+.detail-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #156082;
+    font-size: 15px;
+}
+
+/* =======================
+   LOGIN BOX
+======================= */
+.login-box {
+    background: #f7faff;
+    border: 2px solid #156082;
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.welcome-container {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
 }
