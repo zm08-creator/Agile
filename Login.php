@@ -78,8 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-</head>
 
+    <!-- Link to your external stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
 <!-- Top Navigation Bar -->
@@ -104,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="post" action="Login.php">
             <input type="text" name="username" placeholder="Username" required>
-
             <input type="password" name="password" placeholder="Password" required>
 
             <button type="submit" class="btn">Login</button>
