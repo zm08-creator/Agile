@@ -256,30 +256,19 @@ button[type="submit"]:hover {
     min-width: 250px;
 }
 
-.user-info-card {
-    text-align: center;
-    margin-top: 40px;
-    padding: 25px;
-    background: #f0f7fa;
-    border-radius: 8px;
-    border-left: 5px solid #156082;
-}
-
-.user-info-card h3 {
-    color: #156082;
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.user-info-card p {
-    margin: 8px 0;
-    font-size: 16px;
-}
-
 .logout-link {
     color: #ff6b6b !important;
 }
 
 .logout-link:hover {
     text-decoration: underline !important;
+}
+
+/* Override back-btn styling for dashboard buttons only */
+.dashboard-actions .btn.back-btn {
+    background-color: #156082 !important;
+}
+
+.dashboard-actions .btn.back-btn:hover {
+    background-color: #104a63 !important;
 }

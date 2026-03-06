@@ -37,15 +37,13 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
                 Book New Appointment
             </a>
             
-            <a href="my-appointments.php" class="btn back-btn">
+            <a href="Appointments.php" class="btn back-btn">
                 View My Appointments
             </a>
-        </div>
 
-        <div class="user-info-card">
-            <h3>Your Details</h3>
-            <p><strong>User ID:</strong> <?= $_SESSION["user_id"] ?></p>
-            <p><strong>Role:</strong> <?= ucfirst($_SESSION["role"]) ?></p>
+            <a href="ViewDetails.php" class="btn back-btn">
+                View My Appointments
+            </a>
         </div>
     </div>
 </body>
