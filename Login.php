@@ -60,10 +60,10 @@ switch ($_SESSION["role"]) {
         header("Location: PatientDash.php");
         break;
     case "practitioner":
-        header("Location: professional-dashboard.php");
+        header("Location: ProfDash.php");
         break;
     case "admin":
-        header("Location: admin-dashboard.php");
+        header("Location: AdminDash.php");
         break;
     default:
         header("Location: index.php");
