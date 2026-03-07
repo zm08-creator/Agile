@@ -289,28 +289,33 @@ button[type="submit"]:hover {
     padding: 20px 30px;
     font-size: 18px;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: none !important;  /* FIXED: No underlines */
+    color: white !important;           /* FIXED: White text */
+    border: none !important;           /* FIXED: No borders */
     border-radius: 12px;
     transition: all 0.3s ease;
     min-height: 70px;
     justify-content: center;
     flex: 1;
     max-width: 350px;
+    cursor: pointer;                   /* FIXED: Pointer cursor */
+    text-align: center;
+    font-family: Arial, sans-serif;
 }
 
 .dash-btn-primary {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    color: white;
 }
 
 .dash-btn-secondary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
 }
 
 .dash-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-decoration: none !important;  /* FIXED: No underline on hover */
+    color: white !important;           /* FIXED: Keep white on hover */
 }
 
 /* Appointments Tables */
