@@ -16,30 +16,28 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation Bar (same as MakeAppt1.php) -->
     <div class="navbar">
         <a href="index.php">Home</a>
         <a href="ProfDash.php">Dashboard</a>
-        <a href="Login.php?logout=1">Logout</a>
+        <a href="Login.php?logout=1" class="logout-link">Logout</a>
     </div>
 
     <div class="page-wrapper">
-        <div class="container">
-            <h1>Professional Dashboard</h1>
-            <p>Manage your appointments efficiently.</p>
-            
-            <!-- Three Big Buttons -->
-            <div class="dashboard-buttons">
-                <a href="MakeAppt1.php" class="dash-btn dash-btn-primary">
-                    Make New Appointment
-                </a>
-                <a href="ProfAllAppts.php" class="dash-btn dash-btn-secondary">
-                    View All Appointments
-                </a>
-                <a href="ProfTodayAppts.php" class="dash-btn dash-btn-secondary">
-                    Today's Appointments
-                </a>
-            </div>
+        <h1 class="page-title">Welcome, <?= htmlspecialchars($_SESSION["username"]) ?>!</h1>
+        <h2 class="page-subtitle">Please select an option</h2>
+
+        <div class="dashboard-actions">
+            <a href="MakeAppt1.php" class="btn">
+                Make New Appointment
+            </a>
+
+            <a href="ProfAllAppts.php" class="btn back-btn">
+                View All Appointments
+            </a>
+
+            <a href="ProfTodayAppts.php" class="btn back-btn">
+                Today's Appointments
+            </a>
         </div>
     </div>
 </body>
