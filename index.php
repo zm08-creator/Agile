@@ -16,7 +16,7 @@ session_start();
     </div>
 
     <div class="page-wrapper">
-        <h1 class="page-title">🌟 Welcome to Health Matters</h1>
+        <h1 class="page-title">Welcome to Health Matters</h1>
         <h2 class="page-subtitle">Your trusted platform for medical appointments and healthcare management</h2>
         
         <div class="welcome-container">
