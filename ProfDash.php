@@ -25,19 +25,19 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
 
     <div class="page-wrapper">
         <div class="container">
-            <h1>🏥 Professional Dashboard</h1>
+            <h1>Professional Dashboard</h1>
             <p>Manage your appointments efficiently.</p>
             
             <!-- Three Big Buttons -->
             <div class="dashboard-buttons">
-                <a href="MakeApp1.php" class="dash-btn dash-btn-primary">
-                    📅 Make New Appointment
+                <a href="MakeAppt1.php" class="dash-btn dash-btn-primary">
+                    Make New Appointment
                 </a>
-                <a href="prof-all-appts.php" class="dash-btn dash-btn-secondary">
-                    📋 View All Appointments
+                <a href="ProfAllAppts.php" class="dash-btn dash-btn-secondary">
+                    View All Appointments
                 </a>
-                <a href="prof-today-appts.php" class="dash-btn dash-btn-secondary">
-                    ✨ Today's Appointments
+                <a href="ProfTodayAppts.php" class="dash-btn dash-btn-secondary">
+                    Today's Appointments
                 </a>
             </div>
         </div>
