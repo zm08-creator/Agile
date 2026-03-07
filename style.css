@@ -272,3 +272,78 @@ button[type="submit"]:hover {
 .dashboard-actions .btn.back-btn:hover {
     background-color: #104a63 !important;
 }
+
+/* ==================== PROFESSIONAL DASHBOARD ==================== */
+.dashboard-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.dash-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 70px;
+    justify-content: center;
+    flex: 1;
+    max-width: 350px;
+}
+
+.dash-btn-primary {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.dash-btn-secondary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.dash-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Appointments Tables */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.appointments-table th {
+    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.appointments-table tr:hover {
+    background-color: #f8fbff;
+}
+
+.no-appointments {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
