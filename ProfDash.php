@@ -31,7 +31,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
                 Make New Appointment
             </a>
 
-            <a href="ProfAllAppts.php" class="btn back-btn">
+            <a href="ProfCalendar.php" class="btn back-btn">
                 View All Appointments
             </a>
 
