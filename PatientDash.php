@@ -24,38 +24,37 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
     <!-- PATIENT NAVBAR -->
     <nav class="patient-navbar">
-        <!-- Logo + Title -->
-        <div class="patient-logo-section">
-            <img src="https://seeklogo.com/images/U/uclan-university-of-central-lancashire-logo-433207.png" 
-                 alt="UCLan Logo" 
-                 class="uclan-logo"
-                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDUiIGhlaWdodD0iNDUiIHZpZXdCb3g9IjAgMCA0NSA0NSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjIuNSIgY3k9IjIyLjUiIHI9IjIyLjUiIGZpbGw9IiM3NDRCMUQiLz4KPHRleHQgeD0iMjIuNSIgeT0iMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNMQU48L3RleHQ+Cjwvc3ZnPgo='">
-            <h1 class="health-matters-title">HEALTH MATTERS</h1>
-        </div>
 
-        <!-- Menu Items -->
-        <div class="patient-menu">
-            <a href="MakeAppt1.php">Book an Appointment</a>
-            <a href="#" class="disabled">Advice Sheets</a>
-            <a href="#" class="disabled">Profile Details</a>
-            <a href="#" class="disabled">Notifications</a>
-        </div>
-
-        <!-- Search + Profile -->
-        <div class="patient-search-section">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search appointments..." readonly>
-                <i class="fas fa-search search-icon"></i>
+        <!-- Top Row: Logo + Title | Search + My Account -->
+        <div class="navbar-top">
+            <div class="navbar-brand">
+                <img src="logo.png" alt="Logo" class="uclan-logo">
+                <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
-            <div class="profile-section">
-                <div class="profile-avatar">
-                    <?= strtoupper(substr($_SESSION["username"], 0, 2)) ?>
+
+            <div class="navbar-right">
+                <div class="nav-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search..." readonly>
                 </div>
-                <span><?= htmlspecialchars($_SESSION["username"]) ?></span>
+                <a href="PatientDash.php" class="my-account-link">
+                    My Account
+                    <i class="fas fa-user-circle"></i>
+                </a>
             </div>
         </div>
+
+        <!-- Bottom Row: Nav Links -->
+        <div class="navbar-bottom">
+            <a href="MakeAppt1.php">Book an Appointment</a>
+            <a href="#">Advice Sheets</a>
+            <a href="#">Profile Details</a>
+            <a href="#">Notifications</a>
+        </div>
+
     </nav>
 
     <!-- DASHBOARD CONTENT -->
@@ -67,7 +66,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
             <a href="MakeAppt1.php" class="btn">
                 Book New Appointment
             </a>
-            
+
             <a href="#" class="btn back-btn" onclick="alert('Coming soon!')">
                 View My Appointments
             </a>
@@ -77,5 +76,6 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
             </a>
         </div>
     </div>
+
 </body>
 </html>

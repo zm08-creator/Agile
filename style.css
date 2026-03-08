@@ -264,7 +264,6 @@ button[type="submit"]:hover {
     text-decoration: underline !important;
 }
 
-/* Override back-btn styling for dashboard buttons only */
 .dashboard-actions .btn.back-btn {
     background-color: #156082 !important;
 }
@@ -273,7 +272,9 @@ button[type="submit"]:hover {
     background-color: #104a63 !important;
 }
 
-/* ==================== PROFESSIONAL DASHBOARD ==================== */
+/* =======================
+   PROFESSIONAL DASHBOARD
+======================= */
 .dashboard-buttons {
     display: flex;
     gap: 20px;
@@ -289,16 +290,16 @@ button[type="submit"]:hover {
     padding: 20px 30px;
     font-size: 18px;
     font-weight: 600;
-    text-decoration: none !important;  /* FIXED: No underlines */
-    color: white !important;           /* FIXED: White text */
-    border: none !important;           /* FIXED: No borders */
+    text-decoration: none !important;
+    color: white !important;
+    border: none !important;
     border-radius: 12px;
     transition: all 0.3s ease;
     min-height: 70px;
     justify-content: center;
     flex: 1;
     max-width: 350px;
-    cursor: pointer;                   /* FIXED: Pointer cursor */
+    cursor: pointer;
     text-align: center;
     font-family: Arial, sans-serif;
 }
@@ -314,11 +315,13 @@ button[type="submit"]:hover {
 .dash-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-decoration: none !important;  /* FIXED: No underline on hover */
-    color: white !important;           /* FIXED: Keep white on hover */
+    text-decoration: none !important;
+    color: white !important;
 }
 
-/* Appointments Tables */
+/* =======================
+   APPOINTMENTS TABLE
+======================= */
 .appointments-table {
     width: 100%;
     border-collapse: collapse;
@@ -353,215 +356,123 @@ button[type="submit"]:hover {
     font-style: italic;
 }
 
-/* PATIENT NAVBAR */
+/* =======================
+   PATIENT NAVBAR (PatientDash)
+   Two-row layout
+======================= */
 .patient-navbar {
-    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: #017fb2;
+    padding: 0;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.patient-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.patient-logo img {
-    height: 40px;
-    width: auto;
-}
-
-.patient-title {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.patient-menu {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
-
-.patient-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.3s;
-    font-size: 14px;
-}
-
-.patient-menu a:hover {
-    background: rgba(255,255,255,0.2);
-    color: white;
-}
-
-.patient-search {
-    position: relative;
-    margin-left: 20px;
-}
-
-.patient-search input {
-    padding: 8px 40px 8px 12px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 25px;
-    background: rgba(255,255,255,0.9);
-    width: 250px;
-    font-size: 14px;
-}
-
-.patient-search input::placeholder {
-    color: #666;
-}
-
-.patient-search-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 16px;
-}
-
-.patient-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.2);
-    padding: 8px 16px;
-    border-radius: 25px;
-    color: white;
-}
-
-.patient-profile img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #fff;
-}
-
-/* ========================================
-   PATIENT NAVBAR - Matches screenshot exactly
-============================================ */
-.patient-navbar {
-    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
-    padding: 12px 30px;
+/* Top row */
+.navbar-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    padding: 10px 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
-.patient-logo-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.uclan-logo {
-    height: 45px;
-    width: auto;
-}
-
-.health-matters-title {
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    margin: 0;
-    letter-spacing: 1px;
-}
-
-.patient-menu {
-    display: flex;
-    gap: 2px;
-    align-items: center;
-}
-
-.patient-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.patient-menu a:hover:not(.disabled) {
-    background: rgba(255,255,255,0.15);
-    border-color: rgba(255,255,255,0.3);
-}
-
-.patient-menu a.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.patient-search-section {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.search-input {
-    padding: 10px 45px 10px 15px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 25px;
-    background: rgba(255,255,255,0.95);
-    width: 280px;
-    font-size: 14px;
-    outline: none;
-}
-
-.search-input::placeholder {
-    color: #888;
-}
-
-.search-icon {
-    position: absolute;
-    right: 15px;
-    color: #666;
-    font-size: 16px;
-}
-
-.profile-section {
+.navbar-brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255,255,255,0.15);
-    padding: 8px 20px;
-    border-radius: 25px;
-    color: white;
-    font-weight: 500;
 }
 
-.profile-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
+.navbar-brand .uclan-logo {
+    height: 48px;
+    width: auto;
+}
+
+.navbar-brand .site-title {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.navbar-right {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: bold;
+    gap: 18px;
+}
+
+.nav-search {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 20px;
+    padding: 6px 14px;
+    gap: 8px;
+}
+
+.nav-search input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
     font-size: 14px;
+    width: 180px;
+}
+
+.nav-search input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.nav-search i {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+}
+
+.my-account-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.my-account-link i {
+    font-size: 28px;
+}
+
+.my-account-link:hover {
+    opacity: 0.85;
+}
+
+/* Bottom row */
+.navbar-bottom {
+    display: flex;
+    align-items: stretch;
+}
+
+.navbar-bottom a {
+    flex: 1;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    padding: 13px 10px;
+    border-right: 1px solid rgba(255,255,255,0.25);
+    transition: background 0.2s;
+}
+
+.navbar-bottom a:last-child {
+    border-right: none;
+}
+
+.navbar-bottom a:hover {
+    background: rgba(255,255,255,0.1);
+    text-decoration: underline;
 }
