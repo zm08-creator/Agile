@@ -443,3 +443,70 @@ button[type="submit"]:hover {
 .navbar-logout-btn i {
     font-size: 15px;
 }
+
+/* =======================
+   NAVBAR DROPDOWN (ProfDash)
+======================= */
+.navbar-dropdown {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    border-right: 1px solid rgba(255,255,255,0.25);
+}
+
+.navbar-dropdown-toggle {
+    flex: 1;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    padding: 13px 10px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.navbar-dropdown-toggle:hover {
+    background: rgba(255,255,255,0.1);
+    text-decoration: underline;
+    color: white;
+}
+
+.navbar-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    background-color: #017fb2;
+    z-index: 200;
+    border-top: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.navbar-dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    white-space: nowrap;
+}
+
+.navbar-dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.navbar-dropdown-menu a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.navbar-dropdown:hover .navbar-dropdown-menu {
+    display: block;
+}
