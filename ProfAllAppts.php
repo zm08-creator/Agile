@@ -14,7 +14,7 @@ $dateFilter = isset($_GET['date']) && !empty($_GET['date']) ? $_GET['date'] : nu
 // Build query based on date filter
 if ($dateFilter) {
     $stmt = $conn->prepare("
-        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, created_at 
+        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at 
         FROM appointments 
         WHERE DATE(appointment_date) = ?
         ORDER BY appointment_time ASC
@@ -26,7 +26,7 @@ if ($dateFilter) {
 } else {
     // Show ALL appointments
     $stmt = $conn->prepare("
-        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, created_at 
+        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at 
         FROM appointments 
         ORDER BY appointment_date DESC, appointment_time ASC
     ");
@@ -55,7 +55,7 @@ if ($dateFilter) {
 
     <div class="page-wrapper">
         <div class="container">
-            <h1>📋 <?= htmlspecialchars($pageTitle) ?></h1>
+            <h1><?= htmlspecialchars($pageTitle) ?></h1>
             
             <?php if ($dateFilter): ?>
                 <p class="page-subtitle">Selected from calendar: <?= date('l, jS F Y', strtotime($dateFilter)) ?></p>
@@ -69,11 +69,8 @@ if ($dateFilter) {
                         No appointments found.
                     <?php endif; ?>
                 </div>
-
-                <?php else: ?>
-
-                    <table class="appointments-table">
-
+            <?php else: ?>
+                <table class="appointments-table">
                     <thead>
                         <tr>
                             <th>Patient</th>
@@ -84,7 +81,6 @@ if ($dateFilter) {
                             <th>Created</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <?php foreach ($appointments as $appt): ?>
                             <tr>
@@ -98,8 +94,7 @@ if ($dateFilter) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
-                <?php endif; ?>
+            <?php endif; ?>
 
             <div class="nav-buttons" style="margin-top: 30px;">
                 <a href="ProfCalendar.php" class="btn back-btn">Back to Calendar View</a>
