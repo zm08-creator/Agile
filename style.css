@@ -352,3 +352,216 @@ button[type="submit"]:hover {
     color: #666;
     font-style: italic;
 }
+
+/* PATIENT NAVBAR */
+.patient-navbar {
+    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.patient-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.patient-logo img {
+    height: 40px;
+    width: auto;
+}
+
+.patient-title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.patient-menu {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.patient-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.patient-menu a:hover {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.patient-search {
+    position: relative;
+    margin-left: 20px;
+}
+
+.patient-search input {
+    padding: 8px 40px 8px 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 25px;
+    background: rgba(255,255,255,0.9);
+    width: 250px;
+    font-size: 14px;
+}
+
+.patient-search input::placeholder {
+    color: #666;
+}
+
+.patient-search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 16px;
+}
+
+.patient-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 25px;
+    color: white;
+}
+
+.patient-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+/* ========================================
+   PATIENT NAVBAR - Matches screenshot exactly
+============================================ */
+.patient-navbar {
+    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
+    padding: 12px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.patient-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.uclan-logo {
+    height: 45px;
+    width: auto;
+}
+
+.health-matters-title {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.patient-menu {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.patient-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.patient-menu a:hover:not(.disabled) {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.patient-menu a.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.patient-search-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 10px 45px 10px 15px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 25px;
+    background: rgba(255,255,255,0.95);
+    width: 280px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    color: #666;
+    font-size: 16px;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 20px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 500;
+}
+
+.profile-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
