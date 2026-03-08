@@ -126,7 +126,7 @@ unset($_SESSION["appointment"]);
 
             <div class="nav-buttons" style="justify-content: center; margin-top: 40px;">
                 <a href="MakeAppt1.php" class="btn">Book Another Appointment</a>
-                <a href="index.php" class="btn back-btn">Finish</a>
+                <a href="PatientDash.php" class="btn back-btn">Finish</a>
             </div>
         </div>
     </div>
