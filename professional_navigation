@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+exit();
+
+
 // Check login + role
 if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     header("Location: Login.php");
