@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Make an Appointment - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="navbar">
         <a href="PatientDash.php">My Account</a>

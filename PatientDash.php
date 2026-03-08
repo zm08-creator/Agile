@@ -14,6 +14,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <!-- PATIENT NAVBAR -->
@@ -36,19 +38,21 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
             </div>
 
             <div class="navbar-right">
-    <div class="nav-search">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search..." readonly>
-    </div>
-    <a href="PatientDash.php" class="my-account-link">
-        My Account
-        <i class="fas fa-user-circle"></i>
-    </a>
-    <a href="?logout=1" class="navbar-logout-btn">
-        Logout
-        <i class="fas fa-sign-out-alt"></i>
-    </a>
-</div>
+    
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search..." readonly>
+            </div>
+
+            <a href="PatientDash.php" class="my-account-link"> My Account
+                <i class="fas fa-user-circle"></i> 
+            </a>
+            
+            <a href="?logout=1" class="navbar-logout-btn">Logout
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+            
+            </div>
         </div>
 
         <!-- Bottom Row: Nav Links -->

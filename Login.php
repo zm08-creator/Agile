@@ -18,7 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
-    } else {
+    } 
+    else {
         $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
@@ -38,15 +39,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     case "Patient":
                         $role = "patient";
                         break;
-                    case "professional":
+                    
+                        case "professional":
                     case "Professional":
                         $role = "practitioner";
                         break;
-                    case "admin":
+                    
+                        case "admin":
                     case "Admin":
                         $role = "admin";
                         break;
-                    default:
+                    
+                        default:
                         $role = "unknown";
                 }
 
@@ -59,20 +63,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     case "patient":
                         header("Location: PatientDash.php");
                         break;
-                    case "practitioner":
+                    
+                        case "practitioner":
                         header("Location: ProfDash.php");
                         break;
-                    case "admin":
+                    
+                        case "admin":
                         header("Location: AdminDash.php");
                         break;
-                    default:
+                    
+                        default:
                         header("Location: index.php");
                 }
+
                 exit;
-            } else {
+            } 
+            
+            else {
                 $error = "Invalid password.";
             }
-        } else {
+        } 
+        
+        else {
             $error = "User not found.";
         }
 
@@ -100,15 +112,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2 class="page-subtitle">Access Your Account</h2>
 
         <div class="login-box">
-            <?php if ($error): ?>
-                <div class="error-message"><?= htmlspecialchars($error) ?></div>
-            <?php endif; ?>
+            
+        <?php 
+        
+        if ($error): ?>
+            <div class="error-message"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
 
             <form method="post" action="Login.php">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
-                </div>
+                
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
+            </div>
 
                 <div class="form-group">
                     <label for="password">Password:</label>
@@ -119,8 +135,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <a href="index.php" class="btn back-btn">Back</a>
                     <button type="submit" class="btn">Login</button>
                 </div>
+
             </form>
+
         </div>
+        
     </div>
 </body>
 

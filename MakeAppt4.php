@@ -64,6 +64,7 @@ if ($userId !== null) {
 
 unset($_SESSION["appointment"]);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,6 +72,7 @@ unset($_SESSION["appointment"]);
     <title>Appointment Confirmed - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="navbar">
         <a href="PatientDash.php">My Account</a>

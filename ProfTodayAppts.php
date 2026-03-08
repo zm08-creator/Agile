@@ -20,6 +20,7 @@ $stmt->execute([$today]);
 $todaysAppts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +29,7 @@ $stmt->close();
     <title>Today's Appointments - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>

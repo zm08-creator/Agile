@@ -15,6 +15,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
     <title>Professional Dashboard - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>

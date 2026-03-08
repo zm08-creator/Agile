@@ -35,6 +35,7 @@ $daysInMonth = date('t', $firstDay);
 $dayOfWeek = date('w', $firstDay);
 $monthName = date('F Y', $firstDay);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,6 +61,7 @@ $monthName = date('F Y', $firstDay);
         .calendar-day.today { background: #e8f7e8; }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>
