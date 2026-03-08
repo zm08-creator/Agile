@@ -1,21 +1,13 @@
 <?php
 session_start();
 
-// Only allow professionals
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
-    header("Location: Login.php");
-    exit();
-}
-?>
-<?php
-session_start();
-
 // MUST be logged in as Professional (user_id = 2)
 if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
     header("Location: Login.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
