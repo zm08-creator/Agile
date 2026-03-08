@@ -34,56 +34,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->fetch();
 
             if (password_verify($password, $password_hash)) {
-                switch ($username) {
+
+                // Assign role based on username
+                switch (strtolower($username)) {
                     case "patient":
-                    case "Patient":
                         $role = "patient";
                         break;
-                    
-                        case "professional":
-                    case "Professional":
-                        $role = "practitioner";
+
+                    case "professional":
+                        $role = "professional"; // FIXED
                         break;
-                    
-                        case "admin":
-                    case "Admin":
+
+                    case "admin":
                         $role = "admin";
                         break;
-                    
-                        default:
+
+                    default:
                         $role = "unknown";
                 }
 
+                // Store session data
                 $_SESSION["user_id"] = $id;
                 $_SESSION["username"] = $username;
                 $_SESSION["role"] = $role;
 
-                // Role-based redirect after login
-                switch ($_SESSION["role"]) {
+                // Redirect based on role
+                switch ($role) {
                     case "patient":
                         header("Location: PatientDash.php");
                         break;
-                    
-                        case "practitioner":
-                        header("Location: ProfDash.php");
+
+                    case "professional":
+                        header("Location: ProfDash.php"); // FIXED
                         break;
-                    
-                        case "admin":
+
+                    case "admin":
                         header("Location: AdminDash.php");
                         break;
-                    
-                        default:
+
+                    default:
                         header("Location: index.php");
                 }
 
                 exit;
             } 
-            
             else {
                 $error = "Invalid password.";
             }
         } 
-        
         else {
             $error = "User not found.";
         }
@@ -113,18 +111,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <div class="login-box">
             
-        <?php 
-        
-        if ($error): ?>
+        <?php if ($error): ?>
             <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
             <form method="post" action="Login.php">
                 
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
-            </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
+                </div>
 
                 <div class="form-group">
                     <label for="password">Password:</label>
