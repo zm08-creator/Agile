@@ -1,12 +1,6 @@
 <?php
 session_start();
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-exit();
-
-
 // Check login + role
 if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     header("Location: Login.php");
@@ -100,11 +94,11 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
             <h2>HEALTH MATTERS</h2>
 
             <div class="navbar-links">
-                <a href="#">Appointments</a>
-                <a href="#">User Reports</a>
-                <a href="#">Referrals</a>
-                <a href="#">Advice Sheets</a>
-                <a href="#">Notifications</a>
+                <a href="ProfDash.php">Appointments</a>
+                <a href="ProfAllAppts.php">User Reports</a>
+                <a href="Referrals.php">Referrals</a>
+                <a href="AdviceSheets.php">Advice Sheets</a>
+                <a href="Notifications.php">Notifications</a>
             </div>
         </div>
 
