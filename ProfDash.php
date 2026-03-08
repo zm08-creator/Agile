@@ -6,9 +6,6 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     header("Location: Login.php");
     exit();
 }
-
-// Include the professional navigation bar
-include "professional_navigation.php";
 ?>
 <?php
 session_start();
@@ -36,7 +33,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
         <!-- Top Row: Logo + Title | Search + My Account -->
         <div class="navbar-top">
             <div class="navbar-brand">
-                <img src="uclan-logo.png"
+                <img src="logo.png"
                      alt="UCLan Logo"
                      class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
