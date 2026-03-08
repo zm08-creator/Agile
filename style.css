@@ -140,7 +140,6 @@ button[type="submit"]:hover {
     background-color: #666;
 }
 
-/* Navigation buttons */
 .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -264,61 +263,6 @@ button[type="submit"]:hover {
     text-decoration: underline !important;
 }
 
-.dashboard-actions .btn.back-btn {
-    background-color: #156082 !important;
-}
-
-.dashboard-actions .btn.back-btn:hover {
-    background-color: #104a63 !important;
-}
-
-/* =======================
-   PROFESSIONAL DASHBOARD
-======================= */
-.dashboard-buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.dash-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 30px;
-    font-size: 18px;
-    font-weight: 600;
-    text-decoration: none !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    min-height: 70px;
-    justify-content: center;
-    flex: 1;
-    max-width: 350px;
-    cursor: pointer;
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.dash-btn-primary {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.dash-btn-secondary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.dash-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-decoration: none !important;
-    color: white !important;
-}
-
 /* =======================
    APPOINTMENTS TABLE
 ======================= */
@@ -369,7 +313,6 @@ button[type="submit"]:hover {
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-/* Top row */
 .navbar-top {
     display: flex;
     align-items: center;
@@ -450,7 +393,6 @@ button[type="submit"]:hover {
     opacity: 0.85;
 }
 
-/* Bottom row */
 .navbar-bottom {
     display: flex;
     align-items: stretch;
@@ -486,7 +428,7 @@ button[type="submit"]:hover {
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255,255,255,0.15);
     padding: 7px 14px;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.35);
@@ -494,7 +436,7 @@ button[type="submit"]:hover {
 }
 
 .navbar-logout-btn:hover {
-    background: rgba(255, 0, 0, 0.25);
+    background: rgba(255,0,0,0.25);
     color: white;
 }
 
