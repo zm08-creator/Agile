@@ -2,7 +2,7 @@
 session_start();
 
 // --- SIMPLE LOGIN CHECK (adjust to your system) ---
-if (!isset($_SESSION['practitioner_logged_in'])) {
+if (!isset($_SESSION['professional_logged_in'])) {
     header("Location: login.php");
     exit();
 }
@@ -11,7 +11,7 @@ if (!isset($_SESSION['practitioner_logged_in'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Practitioner Dashboard - Health Matters</title>
+    <title>Professional Dashboard - Health Matters</title>
     <link rel="stylesheet" href="styles.css">
 
     <style>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['practitioner_logged_in'])) {
 
     <!-- MAIN CONTENT -->
     <div class="content">
-        <h1>Welcome, Practitioner</h1>
+        <h1>Welcome, Professional</h1>
         <p>Select an option from the navigation bar to get started.</p>
     </div>
 
