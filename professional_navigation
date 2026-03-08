@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Only allow professionals
+// Check login + role
 if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     header("Location: Login.php");
     exit();
@@ -22,18 +22,20 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
 
         /* NAVBAR */
         .navbar {
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: #004b87;
             padding: 12px 25px;
             color: white;
+            box-sizing: border-box;
         }
 
         .navbar-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .navbar-left img {
@@ -41,7 +43,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
         }
 
         .navbar-links a {
-            margin: 0 12px;
+            margin: 0 10px;
             text-decoration: none;
             color: white;
             font-weight: bold;
@@ -88,6 +90,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     <div class="navbar">
         <div class="navbar-left">
             <img src="uclan_logo.png" alt="UCLan Logo">
+
             <h2>HEALTH MATTERS</h2>
 
             <div class="navbar-links">
