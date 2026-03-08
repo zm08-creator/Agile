@@ -1,4 +1,8 @@
 <?php
+
+echo "<h1 style='color:red'>THIS IS THE FILE BEING LOADED</h1>";
+exit();
+
 session_start();
 
 // Check login + role
