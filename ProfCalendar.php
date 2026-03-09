@@ -63,11 +63,52 @@ $monthName = date('F Y', $firstDay);
 </head>
 
 <body>
-    <div class="navbar">
-        <a href="index.php">Home</a>
-        <a href="ProfDash.php">Dashboard</a>
-        <a href="Login.php?logout=1" class="logout-link">Logout</a>
-    </div>
+   <!-- PROFESSIONAL NAVBAR -->
+    <nav class="patient-navbar">
+
+        <!-- Top Row: Logo + Title | Search + My Account -->
+        <div class="navbar-top">
+            <div class="navbar-brand">
+                <img src="logo.png"
+                     alt="UCLan Logo"
+                     class="uclan-logo">
+                <h1 class="site-title">HEALTH MATTERS</h1>
+            </div>
+
+            <div class="navbar-right">
+                <div class="nav-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search..." readonly>
+                </div>
+                <a href="ProfDash.php" class="my-account-link">
+                    My Account
+                    <i class="fas fa-user-circle"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Nav Links -->
+        <div class="navbar-bottom">
+
+            <!-- Appointments Dropdown -->
+            <div class="navbar-dropdown">
+                <a href="#" class="navbar-dropdown-toggle">
+                    Appointments <i class="fas fa-chevron-down" style="font-size:11px; margin-left:4px;"></i>
+                </a>
+                <div class="navbar-dropdown-menu">
+                    <a href="ProfCalendar.php">Calendar View</a>
+                    <a href="ProfTodayAppts.php">Today's Appointments</a>
+                </div>
+            </div>
+
+            <a href="#">User Reports</a>
+            <a href="#">Referrals</a>
+            <a href="#">Advice Sheets</a>
+            <a href="#">Notifications</a>
+
+        </div>
+
+    </nav>
 
     <div class="page-wrapper">
         <div class="calendar-container">
