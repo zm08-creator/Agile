@@ -58,6 +58,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
             </div>
 
             <a href="#">User Reports</a>
+            <a href="#">Referrals</a>
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
 
