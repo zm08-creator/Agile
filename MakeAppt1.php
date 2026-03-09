@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="page-wrapper">
         <h1 class="page-title">Make an Appointment</h1>
-        <h2 class="page-subtitle">Service Users - Step 1</h2>
+        <h2 class="page-subtitle">Step 1</h2>
 
         <?php if (!empty($errors)): ?>
             <div class="error-messages">
