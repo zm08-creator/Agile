@@ -8,7 +8,19 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once "config/db.php";
+// PostgreSQL connection
+$host = "localhost";
+$port = "5432";
+$dbname = "agile_db";
+$dbuser = "postgres";
+$dbpass = "Admin123";
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 $error = "";
 
@@ -18,54 +30,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
-    } 
-    else {
-        $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
+    } else {
 
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
+        // Query PostgreSQL users table
+        $stmt = $pdo->prepare("SELECT user_id, username, password_hash, role 
+                               FROM users 
+                               WHERE username = :u");
+        $stmt->execute(['u' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->num_rows === 1) {
-            $stmt->bind_result($id, $password_hash);
-            $stmt->fetch();
-
-            if (password_verify($password, $password_hash)) {
-
-                // Assign role based on username
-                switch (strtolower($username)) {
-                    case "patient":
-                        $role = "patient";
-                        break;
-
-                    case "professional":
-                        $role = "professional"; // FIXED
-                        break;
-
-                    case "admin":
-                        $role = "admin";
-                        break;
-
-                    default:
-                        $role = "unknown";
-                }
+        if ($user) {
+            // Verify hashed password
+            if (password_verify($password, $user['password_hash'])) {
 
                 // Store session data
-                $_SESSION["user_id"] = $id;
-                $_SESSION["username"] = $username;
-                $_SESSION["role"] = $role;
+                $_SESSION["user_id"] = $user["user_id"];
+                $_SESSION["username"] = $user["username"];
+                $_SESSION["role"] = $user["role"];
 
-                // Redirect based on role
-                switch ($role) {
+                // Redirect based on role from database
+                switch (strtolower($user["role"])) {
                     case "patient":
                         header("Location: PatientDash.php");
                         break;
 
                     case "professional":
-                        header("Location: ProfDash.php"); // FIXED
+                        header("Location: ProfDash.php");
                         break;
 
                     case "admin":
@@ -77,16 +67,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
 
                 exit;
-            } 
-            else {
+
+            } else {
                 $error = "Invalid password.";
             }
-        } 
-        else {
+        } else {
             $error = "User not found.";
         }
-
-        $stmt->close();
     }
 }
 ?>
