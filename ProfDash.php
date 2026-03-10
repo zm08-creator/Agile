@@ -2,11 +2,12 @@
 session_start();
 
 // MUST be logged in as Professional (user_id = 2)
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") 
-{
+
+if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
     header("Location: Login.php");
     exit;
 }
+
 
 
 ?>
