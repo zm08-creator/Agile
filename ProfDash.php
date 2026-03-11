@@ -1,15 +1,11 @@
 <?php
 session_start();
 
-// MUST be logged in as Professional (user_id = 2)
-
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "professional") {
+// Only allow logged-in practitioners
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner") {
     header("Location: Login.php");
     exit;
 }
-
-
-
 ?>
 
 <!DOCTYPE html>

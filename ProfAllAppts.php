@@ -1,42 +1,51 @@
 <?php
 session_start();
-require_once "config/db.php";
 
-// MUST be Professional
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
+// Only allow practitioners
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner") {
     header("Location: Login.php");
     exit;
 }
 
-// Check for date filter from calendar
+// PostgreSQL connection
+$host   = "localhost";
+$port   = "5432";
+$dbname = "agile_db";
+$dbuser = "postgres";
+$dbpass = "YOUR_POSTGRES_PASSWORD_HERE"; // <-- replace this
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Check for date filter
 $dateFilter = isset($_GET['date']) && !empty($_GET['date']) ? $_GET['date'] : null;
 
-// Build query based on date filter
+// Query based on filter
 if ($dateFilter) {
-    $stmt = $conn->prepare("
-        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at 
-        FROM appointments 
-        WHERE DATE(appointment_date) = ?
+    $stmt = $pdo->prepare("
+        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at
+        FROM appointments
+        WHERE DATE(appointment_date) = :date
         ORDER BY appointment_time ASC
     ");
-    $stmt->execute([$dateFilter]);
-    $appointments = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $stmt->close();
+    $stmt->execute(['date' => $dateFilter]);
+    $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $pageTitle = "Appointments for " . date('d/m/Y', strtotime($dateFilter));
 } else {
-    // Show ALL appointments
-    $stmt = $conn->prepare("
-        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at 
-        FROM appointments 
+    $stmt = $pdo->prepare("
+        SELECT full_name, dob, address, appointment_date, appointment_time, discussion, location, created_at
+        FROM appointments
         ORDER BY appointment_date DESC, appointment_time ASC
     ");
     $stmt->execute();
-    $appointments = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $stmt->close();
+    $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $pageTitle = "All Appointments";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,12 +59,10 @@ if ($dateFilter) {
     <!-- PROFESSIONAL NAVBAR -->
     <nav class="patient-navbar">
 
-        <!-- Top Row: Logo + Title | Search + My Account -->
+        <!-- Top Row -->
         <div class="navbar-top">
             <div class="navbar-brand">
-                <img src="logo.png"
-                     alt="UCLan Logo"
-                     class="uclan-logo">
+                <img src="logo.png" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
 
@@ -71,10 +78,8 @@ if ($dateFilter) {
             </div>
         </div>
 
-        <!-- Bottom Row: Nav Links -->
+        <!-- Bottom Row -->
         <div class="navbar-bottom">
-
-            <!-- Appointments Dropdown -->
             <div class="navbar-dropdown">
                 <a href="#" class="navbar-dropdown-toggle">
                     Appointments <i class="fas fa-chevron-down" style="font-size:11px; margin-left:4px;"></i>
@@ -89,7 +94,6 @@ if ($dateFilter) {
             <a href="#">Referrals</a>
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
-
         </div>
 
     </nav>
@@ -97,11 +101,11 @@ if ($dateFilter) {
     <div class="page-wrapper">
         <div class="container">
             <h1><?= htmlspecialchars($pageTitle) ?></h1>
-            
+
             <?php if ($dateFilter): ?>
                 <p class="page-subtitle">Selected from calendar: <?= date('l, jS F Y', strtotime($dateFilter)) ?></p>
             <?php endif; ?>
-            
+
             <?php if (empty($appointments)): ?>
                 <div class="no-appointments">
                     <?php if ($dateFilter): ?>

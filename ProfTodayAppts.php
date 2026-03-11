@@ -1,26 +1,39 @@
 <?php
 session_start();
-require_once "config/db.php";
 
-// MUST be Professional (user_id = 2)
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
+// Only allow practitioners
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner") {
     header("Location: Login.php");
     exit;
 }
 
+// PostgreSQL connection
+$host   = "localhost";
+$port   = "5432";
+$dbname = "agile_db";
+$dbuser = "postgres";
+$dbpass = "YOUR_POSTGRES_PASSWORD_HERE"; // <-- replace this
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
 // Get today's appointments
 $today = date('Y-m-d');
-$stmt = $conn->prepare("
-    SELECT full_name, appointment_time, discussion, location 
-    FROM appointments 
-    WHERE appointment_date = ?
+
+$stmt = $pdo->prepare("
+    SELECT full_name, appointment_time, discussion, location
+    FROM appointments
+    WHERE appointment_date = :today
     ORDER BY appointment_time ASC
 ");
-$stmt->execute([$today]);
-$todaysAppts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-?>
 
+$stmt->execute(['today' => $today]);
+$todaysAppts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,12 +47,10 @@ $stmt->close();
     <!-- PROFESSIONAL NAVBAR -->
     <nav class="patient-navbar">
 
-        <!-- Top Row: Logo + Title | Search + My Account -->
+        <!-- Top Row -->
         <div class="navbar-top">
             <div class="navbar-brand">
-                <img src="logo.png"
-                     alt="UCLan Logo"
-                     class="uclan-logo">
+                <img src="logo.png" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
 
@@ -55,10 +66,8 @@ $stmt->close();
             </div>
         </div>
 
-        <!-- Bottom Row: Nav Links -->
+        <!-- Bottom Row -->
         <div class="navbar-bottom">
-
-            <!-- Appointments Dropdown -->
             <div class="navbar-dropdown">
                 <a href="#" class="navbar-dropdown-toggle">
                     Appointments <i class="fas fa-chevron-down" style="font-size:11px; margin-left:4px;"></i>
@@ -73,7 +82,6 @@ $stmt->close();
             <a href="#">Referrals</a>
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
-
         </div>
 
     </nav>

@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// MUST be logged in as Professional (user_id = 2)
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
+// Only allow logged-in patients
+if (!isset($_SESSION["user_id"]) || strtolower($_SESSION["role"]) !== "patient") {
     header("Location: Login.php");
     exit;
 }

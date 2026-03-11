@@ -1,41 +1,58 @@
 <?php
 session_start();
-require_once "config/db.php";
 
-// MUST be Professional (user_id = 2)
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
+// Only allow practitioners
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner") {
     header("Location: Login.php");
     exit;
 }
 
+// PostgreSQL connection
+$host   = "localhost";
+$port   = "5432";
+$dbname = "agile_db";
+$dbuser = "postgres";
+$dbpass = "YOUR_POSTGRES_PASSWORD_HERE"; // <-- replace this
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
 // Get current month/year or from GET params
 $month = isset($_GET['month']) ? (int)$_GET['month'] : (int)date('m');
-$year = isset($_GET['year']) ? (int)$_GET['year'] : (int)date('Y');
+$year  = isset($_GET['year'])  ? (int)$_GET['year']  : (int)date('Y');
 
 // Get days with appointments for this month
-$stmt = $conn->prepare("
-    SELECT DISTINCT DATE(appointment_date) as appt_date
-    FROM appointments 
-    WHERE YEAR(appointment_date) = ? AND MONTH(appointment_date) = ?
+$stmt = $pdo->prepare("
+    SELECT DISTINCT DATE(appointment_date) AS appt_date
+    FROM appointments
+    WHERE EXTRACT(YEAR FROM appointment_date) = :year
+      AND EXTRACT(MONTH FROM appointment_date) = :month
     ORDER BY appointment_date
 ");
-$stmt->execute([$year, $month]);
-$apptDays = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
 
-// Build array of dates with appointments (YYYY-MM-DD => true)
+$stmt->execute([
+    'year'  => $year,
+    'month' => $month
+]);
+
+$apptDays = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Build array of dates with appointments
 $apptDates = [];
 foreach ($apptDays as $day) {
     $apptDates[$day['appt_date']] = true;
 }
 
 // Calendar logic
-$firstDay = mktime(0, 0, 0, $month, 1, $year);
-$daysInMonth = date('t', $firstDay);
-$dayOfWeek = date('w', $firstDay);
-$monthName = date('F Y', $firstDay);
+$firstDay     = mktime(0, 0, 0, $month, 1, $year);
+$daysInMonth  = date('t', $firstDay);
+$dayOfWeek    = date('w', $firstDay);
+$monthName    = date('F Y', $firstDay);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,10 +68,10 @@ $monthName = date('F Y', $firstDay);
         .calendar { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .calendar th, .calendar td { padding: 15px; text-align: center; border: 1px solid #ddd; vertical-align: top; height: 100px; }
         .calendar th { background: linear-gradient(135deg, #156082 0%, #104a63 100%); color: white; font-weight: 600; }
-        .calendar-day.has-appointment a { 
-            text-decoration: underline; 
-            color: #156082; 
-            font-weight: bold; 
+        .calendar-day.has-appointment a {
+            text-decoration: underline;
+            color: #156082;
+            font-weight: bold;
             cursor: pointer;
         }
         .calendar-day.has-appointment:hover a { color: #104a63; }
@@ -63,15 +80,13 @@ $monthName = date('F Y', $firstDay);
 </head>
 
 <body>
-   <!-- PROFESSIONAL NAVBAR -->
+    <!-- PROFESSIONAL NAVBAR -->
     <nav class="patient-navbar">
 
-        <!-- Top Row: Logo + Title | Search + My Account -->
+        <!-- Top Row -->
         <div class="navbar-top">
             <div class="navbar-brand">
-                <img src="logo.png"
-                     alt="UCLan Logo"
-                     class="uclan-logo">
+                <img src="logo.png" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
 
@@ -87,10 +102,8 @@ $monthName = date('F Y', $firstDay);
             </div>
         </div>
 
-        <!-- Bottom Row: Nav Links -->
+        <!-- Bottom Row -->
         <div class="navbar-bottom">
-
-            <!-- Appointments Dropdown -->
             <div class="navbar-dropdown">
                 <a href="#" class="navbar-dropdown-toggle">
                     Appointments <i class="fas fa-chevron-down" style="font-size:11px; margin-left:4px;"></i>
@@ -105,7 +118,6 @@ $monthName = date('F Y', $firstDay);
             <a href="#">Referrals</a>
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
-
         </div>
 
     </nav>
@@ -133,22 +145,21 @@ $monthName = date('F Y', $firstDay);
                 <tbody>
                     <?php
                     $dayCounter = 1;
-                    // Empty cells before month starts
+
                     echo '<tr>';
                     for ($i = 0; $i < $dayOfWeek; $i++) {
                         echo '<td></td>';
                     }
-                    
-                    // Fill calendar days
+
                     for ($day = 1; $day <= $daysInMonth; $day++) {
                         $currentDate = sprintf('%04d-%02d-%02d', $year, $month, $day);
                         $isToday = ($currentDate === date('Y-m-d'));
                         $hasAppt = isset($apptDates[$currentDate]);
-                        
+
                         $dayClass = 'calendar-day';
                         if ($isToday) $dayClass .= ' today';
                         if ($hasAppt) $dayClass .= ' has-appointment';
-                        
+
                         echo '<td class="' . $dayClass . '">';
                         if ($hasAppt) {
                             echo '<a href="ProfAllAppts.php?date=' . $currentDate . '">' . $day . '</a>';
@@ -156,14 +167,13 @@ $monthName = date('F Y', $firstDay);
                             echo $day;
                         }
                         echo '</td>';
-                        
+
                         if (($dayOfWeek + $dayCounter) % 7 == 0 && $day < $daysInMonth) {
                             echo '</tr><tr>';
                         }
                         $dayCounter++;
                     }
-                    
-                    // Empty cells after month ends
+
                     $remainingCells = 7 - (($dayOfWeek + $daysInMonth) % 7);
                     if ($remainingCells > 0 && $remainingCells != 7) {
                         for ($i = 0; $i < $remainingCells; $i++) {
