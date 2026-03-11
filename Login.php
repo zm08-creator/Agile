@@ -8,12 +8,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// PostgreSQL connection
-$host = "localhost";
-$port = "5432";
+// PostgreSQL connection settings
+$host   = "localhost";
+$port   = "5432";
 $dbname = "agile_db";
 $dbuser = "postgres";
-$dbpass = "Admin123";
+$dbpass = "Admin123"; // <-- put your real postgres password here
 
 try {
     $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
@@ -31,39 +31,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
     } else {
-
-        // Query PostgreSQL users table
-        $stmt = $pdo->prepare("SELECT user_id, username, password_hash, role 
-                               FROM users 
-                               WHERE username = :u");
+        // Fetch user from PostgreSQL users table
+        $stmt = $pdo->prepare("
+            SELECT user_id, username, password_hash, role
+            FROM users
+            WHERE username = :u
+        ");
         $stmt->execute(['u' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Verify hashed password
+            // Verify the hashed password
             if (password_verify($password, $user['password_hash'])) {
 
                 // Store session data
-                $_SESSION["user_id"] = $user["user_id"];
+                $_SESSION["user_id"]  = $user["user_id"];
                 $_SESSION["username"] = $user["username"];
-                $_SESSION["role"] = $user["role"];
+                $_SESSION["role"]     = $user["role"];
 
-                // Redirect based on role from database
-                switch (strtolower($user["role"])) {
-                    case "patient":
-                        header("Location: PatientDash.php");
-                        break;
+                // Redirect based on role value in the database
+                $role = strtolower($user["role"]);
 
-                    case "professional":
-                        header("Location: ProfDash.php");
-                        break;
-
-                    case "admin":
-                        header("Location: AdminDash.php");
-                        break;
-
-                    default:
-                        header("Location: index.php");
+                if ($role === "patient") {
+                    header("Location: PatientDash.php");
+                } elseif ($role === "practitioner") {
+                    header("Location: ProfDash.php");
+                } elseif ($role === "admin") {
+                    header("Location: AdminDash.php");
+                } else {
+                    // Any other role goes back to home or a generic page
+                    header("Location: index.php");
                 }
 
                 exit;
