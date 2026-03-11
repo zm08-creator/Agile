@@ -1,8 +1,10 @@
 <?php
 session_start();
 
-// Only allow patients
-if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "patient") {
+// Allow both "patient" and "service_user"
+$role = strtolower($_SESSION["role"] ?? "");
+
+if (!isset($_SESSION["user_id"]) || !in_array($role, ["patient", "service_user"])) {
     header("Location: Login.php");
     exit;
 }
