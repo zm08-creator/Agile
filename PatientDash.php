@@ -38,6 +38,10 @@ if (!isset($_SESSION["user_id"]) || !in_array($role, ["patient", "service_user"]
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
+                <a href="Logout.php" class="my-account-link">
+                    Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
             </div>
         </div>
 
