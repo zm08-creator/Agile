@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // Redirect based on role value in the database
                 $role = strtolower($user["role"]);
 
-                if ($role === "patient") {
+                if ($role === "service_user") {
                     header("Location: PatientDash.php");
                 } elseif ($role === "practitioner") {
                     header("Location: ProfDash.php");
