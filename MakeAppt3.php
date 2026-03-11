@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Only allow patients
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "patient") {
+    header("Location: Login.php");
+    exit;
+}
+
 if (!isset($_SESSION["appointment"]) || !isset($_SESSION["appointment"]["appt_date"])) {
     header("Location: MakeAppt1.php");
     exit;
@@ -21,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post" action="MakeAppt3.php">
             <div class="form-group">
                 <label>Choose your preferred time slot:</label>
-                
+
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="09:00" <?= $apptTime === "09:00" ? "checked" : "" ?> required>
                     9:00 AM – 10:00 AM

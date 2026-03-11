@@ -4,8 +4,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-require_once "config/db.php";
 
+// Only allow patients
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "patient") {
+    header("Location: Login.php");
+    exit;
+}
+
+// Must have appointment data
 if (!isset($_SESSION["appointment"])) {
     header("Location: MakeAppt1.php");
     exit;
@@ -23,6 +29,7 @@ $time       = $appt["appt_time"]   ?? "";
 
 $locationFormatted = ucwords(str_replace("-", " ", $location));
 
+// Generate reference number
 $yearShort = date("y");
 $month = date("m");
 $day = date("d");
@@ -37,34 +44,46 @@ $refNumber =
     $letters[random_int(0, strlen($letters) - 1)] .
     random_int(100, 999);
 
+// PostgreSQL connection
+$host   = "localhost";
+$port   = "5432";
+$dbname = "agile_db";
+$dbuser = "postgres";
+$dbpass = "YOUR_POSTGRES_PASSWORD_HERE"; // <-- replace this
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Insert appointment
 $userId = $_SESSION["user_id"] ?? null;
 
 if ($userId !== null) {
-    $stmt = $conn->prepare("
+    $stmt = $pdo->prepare("
         INSERT INTO appointments 
-        (user_id, full_name, dob, address, location, discussion, appointment_date, appointment_time)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        (user_id, full_name, dob, address, location, discussion, appointment_date, appointment_time, reference_number)
+        VALUES (:user_id, :full_name, :dob, :address, :location, :discussion, :appointment_date, :appointment_time, :ref)
     ");
 
-    $stmt->bind_param(
-        "isssssss",
-        $userId,
-        $name,
-        $dob,
-        $address,
-        $location,
-        $discussion,
-        $date,
-        $time
-    );
-
-    $stmt->execute();
-    $stmt->close();
+    $stmt->execute([
+        'user_id'          => $userId,
+        'full_name'        => $name,
+        'dob'              => $dob,
+        'address'          => $address,
+        'location'         => $location,
+        'discussion'       => $discussion,
+        'appointment_date' => $date,
+        'appointment_time' => $time,
+        'ref'              => $refNumber
+    ]);
 }
 
+// Clear session appointment data
 unset($_SESSION["appointment"]);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

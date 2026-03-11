@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Only allow patients
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "patient") {
+    header("Location: Login.php");
+    exit;
+}
+
 if (!isset($_SESSION["appointment"])) {
     $_SESSION["appointment"] = [];
 }
@@ -34,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

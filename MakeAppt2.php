@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Only allow patients
+if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "patient") {
+    header("Location: Login.php");
+    exit;
+}
+
 if (!isset($_SESSION["appointment"])) {
     header("Location: MakeAppt1.php");
     exit;
@@ -21,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post" action="MakeAppt2.php">
             <div class="form-group">
                 <label for="appt_date">Preferred appointment date:</label>
-                <input type="date" 
-                       id="appt_date" 
-                       name="appt_date" 
-                       required 
+                <input type="date"
+                       id="appt_date"
+                       name="appt_date"
+                       required
                        min="<?= date('Y-m-d') ?>"
                        value="<?= htmlspecialchars($apptDate) ?>">
             </div>
