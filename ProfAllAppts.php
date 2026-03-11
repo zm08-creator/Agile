@@ -12,7 +12,7 @@ $host   = "localhost";
 $port   = "5432";
 $dbname = "agile_db";
 $dbuser = "postgres";
-$dbpass = "YOUR_POSTGRES_PASSWORD_HERE"; // <-- replace this
+$dbpass = "Admin123"; // <-- replace this
 
 try {
     $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
