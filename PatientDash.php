@@ -25,7 +25,7 @@ if (!isset($_SESSION["user_id"]) || !in_array($role, ["patient", "service_user"]
 
         <div class="navbar-top">
             <div class="navbar-brand">
-                <img src="uclan-logo.png" alt="UCLan Logo" class="uclan-logo">
+                <img src="logo.png" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
 
