@@ -40,6 +40,10 @@ if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
+                <a href="Logout.php" class="my-account-link">
+                    Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
             </div>
         </div>
 
