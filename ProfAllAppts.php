@@ -1,81 +1,72 @@
 <?php
 session_start();
+require_once "config/db.php"; // Your DB connection
 
-// Only allow practitioners
-if (!isset($_SESSION["role"]) || strtolower($_SESSION["role"]) !== "practitioner") {
+// MUST be Professional
+if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
     header("Location: Login.php");
     exit;
 }
 
-// PostgreSQL connection
-$host   = "localhost";
-$port   = "5432";
-$dbname = "agile_db";
-$dbuser = "postgres";
-$dbpass = "Admin123"; // replace this
-
-try {
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-
-// Load all appointments for practitioner soph_w (staff_id = 3)
-$stmt = $pdo->prepare("
-    SELECT a.appointment_date, a.appointment_time, a.notes, u.user_name AS patient_name
-    FROM appointment a
-    JOIN users u ON a.patient_id = u.user_id
-    WHERE a.staff_id = 3
-    ORDER BY a.appointment_date DESC, a.appointment_time ASC
+// Get ALL appointments (since only 1 professional exists)
+$stmt = $pdo->query("
+    SELECT full_name, dob, address, appointment_date, appointment_time, discussion, created_at 
+    FROM appointments 
+    ORDER BY appointment_date DESC, appointment_time ASC
 ");
-
-$stmt->execute();
-$appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$appointments = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Appointments - Health Matters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Appointments - Professional</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="navbar">
-        <a href="ProfDash.php">My Account</a>
+        <a href="index.php">Home</a>
+        <a href="ProfDash.php">Dashboard</a>
+        <a href="Login.php?logout=1">Logout</a>
     </div>
 
     <div class="page-wrapper">
-        <h1 class="page-title">All Appointments</h1>
-
-        <?php if (empty($appointments)): ?>
-            <div class="no-appointments">No appointments found.</div>
-        <?php else: ?>
-            <table class="appointments-table">
-                <thead>
-                    <tr>
-                        <th>Patient</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($appointments as $appt): ?>
+        <div class="container">
+            <h1>📋 All Appointments</h1>
+            
+            <?php if (empty($appointments)): ?>
+                <div class="no-appointments">
+                    No appointments found.
+                </div>
+            <?php else: ?>
+                <table class="appointments-table">
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($appt['patient_name']) ?></td>
-                            <td><?= date('d/m/Y', strtotime($appt['appointment_date'])) ?></td>
-                            <td><?= date('H:i', strtotime($appt['appointment_time'])) ?></td>
-                            <td><?= htmlspecialchars($appt['notes']) ?></td>
+                            <th>Patient</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Discussion</th>
+                            <th>Created</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
-
-        <div class="nav-buttons" style="margin-top: 30px;">
-            <a href="ProfDash.php" class="btn back-btn">← Back to Dashboard</a>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($appointments as $appt): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($appt['full_name']) ?></td>
+                                <td><?= date('d/m/Y', strtotime($appt['appointment_date'])) ?></td>
+                                <td><?= date('H:i', strtotime($appt['appointment_time'])) ?></td>
+                                <td><?= htmlspecialchars($appt['discussion']) ?></td>
+                                <td><?= date('d/m H:i', strtotime($appt['created_at'])) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+            
+            <div class="nav-buttons" style="margin-top: 30px;">
+                <a href="ProfDash.php" class="btn back-btn">← Back to Dashboard</a>
+            </div>
         </div>
     </div>
 </body>

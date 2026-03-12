@@ -9,7 +9,6 @@ session_start();
     <title>Health Matters - Welcome</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="navbar">
         <a href="index.php">Home</a>
@@ -24,6 +23,5 @@ session_start();
             <a href="Login.php" class="btn">Go to Login →</a>
         </div>
     </div>
-    
 </body>
 </html>

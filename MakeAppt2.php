@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-// Allow both "patient" and "service_user"
-$role = strtolower($_SESSION["role"] ?? "");
-
-if (!isset($_SESSION["user_id"]) || !in_array($role, ["patient", "service_user"])) {
-    header("Location: Login.php");
-    exit;
-}
-
 if (!isset($_SESSION["appointment"])) {
     header("Location: MakeAppt1.php");
     exit;
@@ -36,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Choose Appointment Date - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="navbar">
+        <a href="index.php">Home</a>
         <a href="PatientDash.php">My Account</a>
     </div>
 
@@ -57,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post" action="MakeAppt2.php">
             <div class="form-group">
                 <label for="appt_date">Preferred appointment date:</label>
-                <input type="date"
-                       id="appt_date"
-                       name="appt_date"
-                       required
+                <input type="date" 
+                       id="appt_date" 
+                       name="appt_date" 
+                       required 
                        min="<?= date('Y-m-d') ?>"
                        value="<?= htmlspecialchars($apptDate) ?>">
             </div>

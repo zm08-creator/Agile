@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-// Allow both "patient" and "service_user"
-$role = strtolower($_SESSION["role"] ?? "");
-
-if (!isset($_SESSION["user_id"]) || !in_array($role, ["patient", "service_user"])) {
-    header("Location: Login.php");
-    exit;
-}
-
 if (!isset($_SESSION["appointment"])) {
     $_SESSION["appointment"] = [];
 }
@@ -49,15 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Make an Appointment - Health Matters</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="navbar">
+        <a href="index.php">Home</a>
         <a href="PatientDash.php">My Account</a>
     </div>
 
     <div class="page-wrapper">
         <h1 class="page-title">Make an Appointment</h1>
-        <h2 class="page-subtitle">Step 1</h2>
+        <h2 class="page-subtitle">Service Users - Step 1</h2>
 
         <?php if (!empty($errors)): ?>
             <div class="error-messages">

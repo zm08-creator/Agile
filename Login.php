@@ -8,19 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// PostgreSQL connection settings
-$host   = "localhost";
-$port   = "5432";
-$dbname = "agile_db";
-$dbuser = "postgres";
-$dbpass = "Admin123"; // <-- put your real postgres password here
-
-try {
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $dbuser, $dbpass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+require_once "config/db.php";
 
 $error = "";
 
@@ -31,46 +19,64 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
     } else {
-        // Fetch user from PostgreSQL users table
-        $stmt = $pdo->prepare("
-            SELECT user_id, username, password_hash, role
-            FROM users
-            WHERE username = :u
-        ");
-        $stmt->execute(['u' => $username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
 
-        if ($user) {
-            // Verify the hashed password
-            if (password_verify($password, $user['password_hash'])) {
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->store_result();
 
-                // Store session data
-                $_SESSION["user_id"]  = $user["user_id"];
-                $_SESSION["username"] = $user["username"];
-                $_SESSION["role"]     = $user["role"];
+        if ($stmt->num_rows === 1) {
+            $stmt->bind_result($id, $password_hash);
+            $stmt->fetch();
 
-                // Redirect based on role value in the database
-                $role = strtolower($user["role"]);
-
-                if ($role === "service_user") {
-                    header("Location: PatientDash.php");
-                } elseif ($role === "practitioner") {
-                    header("Location: ProfDash.php");
-                } elseif ($role === "admin") {
-                    header("Location: AdminDash.php");
-                } else {
-                    // Any other role goes back to home or a generic page
-                    header("Location: index.php");
+            if (password_verify($password, $password_hash)) {
+                switch ($username) {
+                    case "patient":
+                    case "Patient":
+                        $role = "patient";
+                        break;
+                    case "professional":
+                    case "Professional":
+                        $role = "practitioner";
+                        break;
+                    case "admin":
+                    case "Admin":
+                        $role = "admin";
+                        break;
+                    default:
+                        $role = "unknown";
                 }
 
-                exit;
+                $_SESSION["user_id"] = $id;
+                $_SESSION["username"] = $username;
+                $_SESSION["role"] = $role;
 
+                // Role-based redirect after login
+                switch ($_SESSION["role"]) {
+                    case "patient":
+                        header("Location: PatientDash.php");
+                        break;
+                    case "practitioner":
+                        header("Location: ProfDash.php");
+                        break;
+                    case "admin":
+                        header("Location: AdminDash.php");
+                        break;
+                    default:
+                        header("Location: index.php");
+                }
+                exit;
             } else {
                 $error = "Invalid password.";
             }
         } else {
             $error = "User not found.";
         }
+
+        $stmt->close();
     }
 }
 ?>
@@ -94,13 +100,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2 class="page-subtitle">Access Your Account</h2>
 
         <div class="login-box">
-            
-        <?php if ($error): ?>
-            <div class="error-message"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
+            <?php if ($error): ?>
+                <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
 
             <form method="post" action="Login.php">
-                
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" placeholder="Username" required value="<?= htmlspecialchars($_POST["username"] ?? '') ?>">
@@ -115,11 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <a href="index.php" class="btn back-btn">Back</a>
                     <button type="submit" class="btn">Login</button>
                 </div>
-
             </form>
-
         </div>
-        
     </div>
 </body>
 
