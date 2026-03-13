@@ -33,29 +33,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->fetch();
 
             if (password_verify($password, $password_hash)) {
-                switch ($username) {
-                    case "patient":
-                    case "Patient":
-                        $role = "patient";
-                        break;
-                    case "professional":
-                    case "Professional":
-                        $role = "practitioner";
-                        break;
-                    case "admin":
-                    case "Admin":
-                        $role = "admin";
-                        break;
-                    default:
-                        $role = "unknown";
+                // ADD ROLE TO DATABASE - we'll create this column
+                $role_query = $conn->prepare("SELECT role FROM users WHERE id = ?");
+                $role_query->bind_param("i", $id);
+                $role_query->execute();
+                $role_result = $role_query->get_result();
+                
+                if ($role_result->num_rows > 0) {
+                    $user = $role_result->fetch_assoc();
+                    $role = $user['role'] ?? 'unknown';
+                } else {
+                    // Fallback for existing users
+                    switch ($username) {
+                        case "Patient": case "patient": $role = "patient"; break;
+                        case "Professional": case "professional": $role = "practitioner"; break;
+                        case "Admin": case "admin": $role = "admin"; break;
+                        default: $role = "unknown";
+                    }
                 }
+                $role_query->close();
 
                 $_SESSION["user_id"] = $id;
                 $_SESSION["username"] = $username;
                 $_SESSION["role"] = $role;
 
                 // Role-based redirect after login
-                switch ($_SESSION["role"]) {
+                switch ($role) {
                     case "patient":
                         header("Location: PatientDash.php");
                         break;
@@ -83,7 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Login - Health Matters</title>
@@ -92,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-      <!-- PATIENT NAVBAR -->
+    <!-- PATIENT NAVBAR -->
     <nav class="patient-navbar">
 
         <div class="navbar-top">
@@ -110,14 +112,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
-                <a href="Logout.php" class="my-account-link">
-                    Logout
-                    <i class="fas fa-sign-out-alt"></i>
-                </a>
             </div>
         </div>
     </nav>
-
 
     <div class="page-wrapper">
         <h1 class="page-title">Login</h1>
@@ -147,5 +144,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
     </div>
 </body>
-
 </html>

@@ -13,7 +13,7 @@ session_start();
 </head>
 
 <body>
-        <!-- PATIENT NAVBAR -->
+    <!-- PATIENT NAVBAR -->
     <nav class="patient-navbar">
 
         <div class="navbar-top">
