@@ -1,76 +1,92 @@
 <?php
 session_start();
-require_once "config/db.php";
 
-// MUST be Professional (user_id = 2)
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_id"] != 2) {
+if (isset($_GET["logout"])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
+if (!isset($_SESSION["user_id"]) || !in_array($_SESSION["role"], ['practitioner', 'professional'])) {
     header("Location: Login.php");
     exit;
 }
 
-// Get today's appointments
+require_once "config/db.php";
+
+$doctor_id = $_SESSION["user_id"];
 $today = date('Y-m-d');
+
 $stmt = $conn->prepare("
-    SELECT full_name, appointment_time, discussion, location 
-    FROM appointments 
-    WHERE appointment_date = ?
-    ORDER BY appointment_time ASC
+    SELECT b.*, p.first_name, p.last_name, r.room_type
+    FROM bookings b 
+    JOIN patients p ON b.patient_id = p.patient_id
+    JOIN rooms r ON b.room_id = r.room_id
+    WHERE b.doctor_id = ? AND b.date = ?
+    ORDER BY b.start_time ASC
 ");
-$stmt->execute([$today]);
-$todaysAppts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+$stmt->bind_param("is", $doctor_id, $today);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Appointments - Health Matters</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <div class="navbar">
-        <a href="index.php">Home</a>
-        <a href="ProfDash.php">Dashboard</a>
-        <a href="Login.php?logout=1" class="logout-link">Logout</a>
-    </div>
-
-    <div class="page-wrapper">
-        <div class="container">
-            <h1 class="page-title">Today's Appointments</h1>
-            <h2 class="page-subtitle"><?= date('l, F jS, Y') ?></h2>
-
-            <?php if (empty($todaysAppts)): ?>
-                <div class="no-appointments">
-                    No appointments scheduled for today.
+    <nav class="patient-navbar">
+        <div class="navbar-top">
+            <div class="navbar-brand">
+                <img src="logo.jpg" alt="UCLan Logo" class="uclan-logo">
+                <h1 class="site-title">HEALTH MATTERS</h1>
+            </div>
+            <div class="navbar-right">
+                <div class="nav-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search..." readonly>
                 </div>
-            <?php else: ?>
-                <table class="appointments-table">
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Time</th>
-                            <th>Reason for Visit</th>
-                            <th>Location</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($todaysAppts as $appt): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($appt['full_name']) ?></td>
-                                <td><?= date('H:i', strtotime($appt['appointment_time'])) ?></td>
-                                <td><?= htmlspecialchars($appt['discussion']) ?></td>
-                                <td><?= htmlspecialchars(ucwords(str_replace('-', ' ', $appt['location']))) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-
-            <div class="nav-buttons" style="margin-top: 30px;">
-                <a href="ProfDash.php" class="btn back-btn">← Back to Dashboard</a>
+                <a href="ProfDash.php" class="my-account-link">Dashboard <i class="fas fa-tachometer-alt"></i></a>
+                <a href="?logout" class="my-account-link">Logout <i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
+        <div class="navbar-bottom">
+            <a href="ProfTodayAppts.php">Today's Appointments</a>
+            <a href="ProfAllAppts.php">All Appointments</a>
+            <a href="#">Calendar</a>
+            <a href="#">Patient Records</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <h1 class="page-title">Today's Appointments</h1>
+        <h2 class="page-subtitle"><?= date('l, F jS, Y') ?></h2>
+        
+        <div class="dashboard-actions">
+            <a href="ProfDash.php" class="btn back-btn">← Back to Dashboard</a>
+        </div>
+
+        <?php if ($result->num_rows > 0): ?>
+            <div class="appointments-list">
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="appointment-card">
+                        <h3><?= htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) ?></h3>
+                        <p><strong>Time:</strong> <?= date('g:i A', strtotime($row['start_time'])) ?> - <?= date('g:i A', strtotime($row['end_time'])) ?></p>
+                        <p><strong>Room:</strong> <?= htmlspecialchars($row['room_type']) ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php else: ?>
+            <div class="no-appointments">
+                <h3>No appointments today</h3>
+                <p>Check back later or view all appointments.</p>
+                <a href="ProfAllAppts.php" class="btn">View All Appointments</a>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

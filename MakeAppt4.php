@@ -48,34 +48,16 @@ $refNumber = "HM" . $yearShort . $month . $day .
              $letters[random_int(0, strlen($letters) - 1)] . 
              random_int(100, 999);
 
-// **SAVE TO BOOKINGS TABLE** (ERD compatible)
-$doctor_id = 1;  // Sophie Williams
-$room_id = 1;    // Consultation Room
-$start_time = $time . ":00";  // Convert to TIME format
-$end_time = date('H:i:s', strtotime($time . " +1 hour"));  // +1 hour end time
+// **NO DEFAULT DOCTOR/ROOM - Just save patient booking data**
+$start_time = $time . ":00";  
+$end_time = date('H:i:s', strtotime($time . " +1 hour"));
 
-// **DOUBLE-BOOKING CHECK**
-$check_stmt = $conn->prepare("
-    SELECT COUNT(*) as count 
-    FROM bookings 
-    WHERE doctor_id = ? AND date = ? AND start_time = ?
-");
-$check_stmt->bind_param("iss", $doctor_id, $date, $start_time);
-$check_stmt->execute();
-$check_result = $check_stmt->get_result();
-$booking_count = $check_result->fetch_assoc()['count'];
-$check_stmt->close();
-
-if ($booking_count > 0) {
-    die("ERROR: This time slot is already booked with Dr. Sophie Williams. Please choose another time.");
-}
-
-// **INSERT INTO BOOKINGS TABLE**
+// **INSERT INTO BOOKINGS TABLE WITHOUT DOCTOR/ROOM** (for now)
 $stmt = $conn->prepare("
-    INSERT INTO bookings (patient_id, doctor_id, room_id, start_time, end_time, date) 
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO bookings (patient_id, start_time, end_time, date) 
+    VALUES (?, ?, ?, ?)
 ");
-$stmt->bind_param("iiisss", $patient_id, $doctor_id, $room_id, $start_time, $end_time, $date);
+$stmt->bind_param("isss", $patient_id, $start_time, $end_time, $date);
 
 if ($stmt->execute()) {
     $success = true;
@@ -133,16 +115,6 @@ unset($_SESSION["appointment"]);
 
         <div class="confirmation">
             <div class="details-grid">
-                <div class="detail-item">
-                    <strong>Doctor:</strong>
-                    <span>Dr. Sophie Williams (General Practitioner)</span>
-                </div>
-
-                <div class="detail-item">
-                    <strong>Room:</strong>
-                    <span>Consultation Room</span>
-                </div>
-
                 <div class="detail-item">
                     <strong>Name:</strong>
                     <span><?= htmlspecialchars($name) ?></span>
