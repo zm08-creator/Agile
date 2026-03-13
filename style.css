@@ -352,3 +352,16 @@ button[type="submit"]:hover {
     color: #666;
     font-style: italic;
 }
+
+.logout-link {
+    background-color: #e63946;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logout-link:hover {
+    background-color: #d62828;
+}
