@@ -20,9 +20,11 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     <meta charset="UTF-8">
     <title>Patient Dashboard - Health Matters</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-        <!-- PATIENT NAVBAR -->
+    <!-- PATIENT NAVBAR -->
     <nav class="patient-navbar">
 
         <div class="navbar-top">
@@ -53,7 +55,6 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
         </div>
-
     </nav>
 
     <div class="page-wrapper">

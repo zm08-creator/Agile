@@ -8,371 +8,21 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f9fb;
+    font-family: Arial, Helvetica, sans-serif;
+    background: ghostwhite;        /* CHANGED: Light ghostwhite background */
     color: #156082;
     line-height: 1.6;
 }
 
 /* =======================
-   TOP NAVIGATION BAR
+   PATIENT NAVBAR
 ======================= */
-.navbar {
-    background-color: #156082;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.navbar a:hover {
-    text-decoration: underline;
-}
-
-/* =======================
-   PAGE LAYOUT
-======================= */
-.page-wrapper {
-    width: 70%;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
-
-/* =======================
-   PAGE HEADINGS
-======================= */
-.page-title {
-    font-size: 28px;
-    color: #156082;
-    margin-bottom: 5px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.page-subtitle {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-/* =======================
-   FORM STYLING
-======================= */
-.form-group {
-    margin-bottom: 18px;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-    color: #156082;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #156082;
-    border-radius: 5px;
-    font-size: 15px;
-    transition: border-color 0.3s;
-}
-
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: #104a63;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-/* Radio buttons */
-label input[type="radio"] {
-    margin-right: 10px;
-    transform: scale(1.2);
-}
-
-/* =======================
-   BUTTONS
-======================= */
-.btn,
-button[type="submit"] {
-    background-color: #156082;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn:hover,
-button[type="submit"]:hover {
-    background-color: #104a63;
-}
-
-.back-btn {
-    background-color: #888;
-}
-
-.back-btn:hover {
-    background-color: #666;
-}
-
-/* Navigation buttons */
-.nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    gap: 15px;
-}
-
-/* =======================
-   ERROR MESSAGES
-======================= */
-.error-messages,
-.error-message {
-    background: #ffdddd;
-    padding: 10px;
-    border-left: 4px solid red;
-    margin-bottom: 20px;
-    border-radius: 4px;
-}
-
-.error-messages p,
-.error-message {
-    margin: 0;
-    color: #c0392b;
-}
-
-/* =======================
-   TIME SLOTS (MakeAppt3)
-======================= */
-.time-slot {
-    display: block;
-    padding: 12px;
-    border: 2px solid #156082;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background: #f9fcff;
-    transition: all 0.3s;
-}
-
-.time-slot:hover {
-    background: #e8f2f8;
-    border-color: #104a63;
-}
-
-.time-slot input[type="radio"] {
-    margin-right: 10px;
-}
-
-/* =======================
-   CONFIRMATION (MakeAppt4)
-======================= */
-.confirmation {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
-    margin: 25px 0;
-}
-
-.detail-item {
-    background-color: #f0f7fa;
-    padding: 15px;
-    border-radius: 6px;
-    border-left: 5px solid #156082;
-}
-
-.detail-item strong {
-    display: block;
-    margin-bottom: 5px;
-    color: #156082;
-    font-size: 15px;
-}
-
-/* =======================
-   LOGIN BOX
-======================= */
-.login-box {
-    background: #f7faff;
-    border: 2px solid #156082;
-    border-radius: 8px;
-    padding: 30px;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.welcome-container {
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 40px;
-}
-
-/* =======================
-   DASHBOARD STYLES
-======================= */
-.dashboard-actions {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 40px 0;
-}
-
-.dashboard-actions .btn {
-    padding: 20px 40px;
-    font-size: 18px;
-    min-width: 250px;
-}
-
-.logout-link {
-    color: #ff6b6b !important;
-}
-
-.logout-link:hover {
-    text-decoration: underline !important;
-}
-
-/* Override back-btn styling for dashboard buttons only */
-.dashboard-actions .btn.back-btn {
-    background-color: #156082 !important;
-}
-
-.dashboard-actions .btn.back-btn:hover {
-    background-color: #104a63 !important;
-}
-
-/* ==================== PROFESSIONAL DASHBOARD ==================== */
-.dashboard-buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.dash-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 30px;
-    font-size: 18px;
-    font-weight: 600;
-    text-decoration: none !important;  /* FIXED: No underlines */
-    color: white !important;           /* FIXED: White text */
-    border: none !important;           /* FIXED: No borders */
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    min-height: 70px;
-    justify-content: center;
-    flex: 1;
-    max-width: 350px;
-    cursor: pointer;                   /* FIXED: Pointer cursor */
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.dash-btn-primary {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.dash-btn-secondary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.dash-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-decoration: none !important;  /* FIXED: No underline on hover */
-    color: white !important;           /* FIXED: Keep white on hover */
-}
-
-/* Appointments Tables */
-.appointments-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.appointments-table th,
-.appointments-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #e1e8ed;
-}
-
-.appointments-table th {
-    background: linear-gradient(135deg, #156082 0%, #104a63 100%);
-    color: white;
-    font-weight: 600;
-}
-
-.appointments-table tr:hover {
-    background-color: #f8fbff;
-}
-
-.no-appointments {
-    text-align: center;
-    padding: 40px;
-    color: #666;
-    font-style: italic;
-}
-
-/* Global */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-    background: #333;              /* dark page background like screenshot */
-}
-
-/* Wrapper */
 .patient-navbar {
     width: 100%;
-    background-color: #017fb0;     /* teal/blue bar */
-    border: 2px solid #000;
+    background-color: #017fb0;
 }
 
-/* TOP ROW ---------------------------------------------------- */
+/* TOP ROW */
 .navbar-top {
     display: flex;
     align-items: center;
@@ -398,14 +48,12 @@ body {
     font-weight: 700;
 }
 
-/* Right side: search + account */
 .navbar-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-/* pill search box */
 .nav-search {
     display: flex;
     align-items: center;
@@ -434,7 +82,6 @@ body {
     color: #ffffff;
 }
 
-/* My Account */
 .my-account-link {
     display: inline-flex;
     align-items: center;
@@ -448,31 +95,197 @@ body {
     font-size: 24px;
 }
 
-/* BOTTOM ROW ------------------------------------------------- */
+/* BOTTOM ROW */
 .navbar-bottom {
     display: flex;
     width: 100%;
 }
 
 .navbar-bottom a {
-    flex: 1;                                   /* equal-width blocks */
+    flex: 1;
     text-align: center;
     padding: 14px 0;
     background-color: #017fb0;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
     color: #ffffff;
     font-size: 18px;
     font-weight: 600;
     text-decoration: underline;
 }
 
+.navbar-bottom a:first-child {
+    border-left: 2px solid #000;
+}
+
 .navbar-bottom a:hover {
     background-color: #017095;
 }
 
-/* PAGE CONTENT BELOW NAV ------------------------------------ */
+/* =======================
+   PAGE LAYOUT
+======================= */
 .page-wrapper {
     max-width: 1000px;
     margin: 30px auto;
     padding: 0 20px;
-    color: #ffffff;
+    color: #156082;
+}
+
+/* =======================
+   PAGE HEADINGS
+======================= */
+.page-title {
+    font-size: 28px;
+    color: #156082;
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* =======================
+   DASHBOARD BUTTONS
+======================= */
+.dashboard-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.dashboard-actions .btn {
+    padding: 20px 40px;
+    font-size: 18px;
+    min-width: 250px;
+    background-color: #017fb0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.dashboard-actions .btn:hover {
+    background-color: #017095;
+}
+
+/* =======================
+   FORM STYLING
+======================= */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: #156082;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #017fb0;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #017095;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.btn,
+button[type="submit"] {
+    background-color: #017fb0;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn:hover,
+button[type="submit"]:hover {
+    background-color: #017095;
+}
+
+.back-btn {
+    background-color: #888;
+}
+
+.back-btn:hover {
+    background-color: #666;
+}
+
+/* =======================
+   OTHER STYLES (kept from original)
+======================= */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.error-messages,
+.error-message {
+    background: #ffdddd;
+    padding: 10px;
+    border-left: 4px solid red;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.error-messages p,
+.error-message {
+    margin: 0;
+    color: #c0392b;
+}
+
+.time-slot {
+    display: block;
+    padding: 12px;
+    border: 2px solid #017fb0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #f9fcff;
+    transition: all 0.3s;
+}
+
+.time-slot:hover {
+    background: #e8f2f8;
+    border-color: #017095;
 }
