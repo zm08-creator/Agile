@@ -353,15 +353,126 @@ button[type="submit"]:hover {
     font-style: italic;
 }
 
-.logout-link {
-    background-color: #e63946;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
+/* Global */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.logout-link:hover {
-    background-color: #d62828;
+body {
+    background: #333;              /* dark page background like screenshot */
+}
+
+/* Wrapper */
+.patient-navbar {
+    width: 100%;
+    background-color: #017fb0;     /* teal/blue bar */
+    border: 2px solid #000;
+}
+
+/* TOP ROW ---------------------------------------------------- */
+.navbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 25px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.uclan-logo {
+    height: 52px;
+    width: auto;
+}
+
+.site-title {
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Right side: search + account */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* pill search box */
+.nav-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.nav-search i {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.nav-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.nav-search input::placeholder {
+    color: #ffffff;
+}
+
+/* My Account */
+.my-account-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.my-account-link i {
+    font-size: 24px;
+}
+
+/* BOTTOM ROW ------------------------------------------------- */
+.navbar-bottom {
+    display: flex;
+    width: 100%;
+}
+
+.navbar-bottom a {
+    flex: 1;                                   /* equal-width blocks */
+    text-align: center;
+    padding: 14px 0;
+    background-color: #017fb0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.navbar-bottom a:hover {
+    background-color: #017095;
+}
+
+/* PAGE CONTENT BELOW NAV ------------------------------------ */
+.page-wrapper {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+    color: #ffffff;
 }
