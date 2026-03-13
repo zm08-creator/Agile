@@ -1,6 +1,21 @@
 <?php
 session_start();
 
+// Handle logout
+if (isset($_GET["logout"])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
+// Check if user is logged in and is a patient
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
+    header("Location: Login.php");
+    exit;
+}
+
+require_once "config/db.php";
+
 if (!isset($_SESSION["appointment"])) {
     $_SESSION["appointment"] = [];
 }
@@ -21,8 +36,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!$discussion) $errors[] = "Discussion details are required.";
 
     if (empty($errors)) {
+        // **SAVE TO PATIENTS TABLE** (link to logged-in user)
+        $patient_id = $_SESSION["user_id"];
+        
+        $stmt = $conn->prepare("INSERT INTO patients (patient_id, first_name, last_name, phone_num) VALUES (?, ?, ?, '') ON DUPLICATE KEY UPDATE first_name = ?, last_name = ?");
+        $first_last = explode(' ', $name, 2);
+        $first_name = $first_last[0] ?? '';
+        $last_name = $first_last[1] ?? '';
+        $stmt->bind_param("isssi", $patient_id, $first_name, $last_name, $first_name, $last_name);
+        $stmt->execute();
+        $stmt->close();
+
+        // **STORE ALL YOUR ORIGINAL FIELDS IN SESSION**
         $_SESSION["appointment"] = [
-            "name" => $name,
+            "patient_id" => $patient_id,
+            "full_name" => $name,
             "dob" => $dob,
             "address" => $address,
             "location" => $location,
@@ -45,15 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-    <!-- PATIENT NAVBAR -->
+    <!-- YOUR NAVBAR EXACTLY AS-IS -->
     <nav class="patient-navbar">
-
         <div class="navbar-top">
             <div class="navbar-brand">
                 <img src="logo.jpg" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
-
             <div class="navbar-right">
                 <div class="nav-search">
                     <i class="fas fa-search"></i>
@@ -63,20 +89,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
-                <a href="Logout.php" class="my-account-link">
+                <a href="?logout" class="my-account-link">
                     Logout
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
         </div>
-
         <div class="navbar-bottom">
             <a href="MakeAppt1.php">Make Appointment</a>
             <a href="PatientAppts.php">My Appointments</a>
             <a href="#">Advice Sheets</a>
             <a href="#">Notifications</a>
         </div>
-
     </nav>
 
     <div class="page-wrapper">
@@ -120,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <div class="nav-buttons">
-                <a href="index.php" class="btn back-btn">Back</a>
+                <a href="PatientDash.php" class="btn back-btn">Back</a>
                 <button type="submit" class="btn">Next</button>
             </div>
         </form>
