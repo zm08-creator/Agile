@@ -106,6 +106,7 @@ ALTER TABLE `Patient`
     ADD COLUMN `user_id` int(11) DEFAULT NULL,
     ADD UNIQUE KEY `user_id` (`user_id`),
     ADD CONSTRAINT `patient_ibfk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+    ALTER TABLE `Bookings` ADD COLUMN `Discussion` varchar(255) NOT NULL;
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
