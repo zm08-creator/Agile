@@ -7,7 +7,7 @@ if (isset($_GET["logout"])) {
     exit;
 }
 
-if (!isset($_SESSION["user_id"]) || !in_array($_SESSION["role"], ['practitioner', 'professional'])) {
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'doctor') {
     header("Location: Login.php");
     exit;
 }
@@ -18,12 +18,12 @@ $doctor_id = $_SESSION["user_id"];
 $today = date('Y-m-d');
 
 $stmt = $conn->prepare("
-    SELECT b.*, p.first_name, p.last_name, r.room_type
-    FROM bookings b 
-    JOIN patients p ON b.patient_id = p.patient_id
-    JOIN rooms r ON b.room_id = r.room_id
-    WHERE b.doctor_id = ? AND b.date = ?
-    ORDER BY b.start_time ASC
+    SELECT b.*, p.FirstName, p.LastName, r.RoomType
+    FROM Bookings b 
+    JOIN Patient p ON b.PatientID = p.PatientID
+    JOIN Room r ON b.RoomID = r.RoomID
+    WHERE b.DoctorID = ? AND b.Date = ?
+    ORDER BY b.StartTime ASC
 ");
 $stmt->bind_param("is", $doctor_id, $today);
 $stmt->execute();
@@ -79,8 +79,6 @@ $result = $stmt->get_result();
     </div>
 </nav>
 
-
-
     <div class="page-wrapper">
         <h1 class="page-title">Today's Appointments</h1>
         <h2 class="page-subtitle"><?= date('l, F jS, Y') ?></h2>
@@ -93,9 +91,9 @@ $result = $stmt->get_result();
             <div class="appointments-list">
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="appointment-card">
-                        <h3><?= htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) ?></h3>
-                        <p><strong>Time:</strong> <?= date('g:i A', strtotime($row['start_time'])) ?> - <?= date('g:i A', strtotime($row['end_time'])) ?></p>
-                        <p><strong>Room:</strong> <?= htmlspecialchars($row['room_type']) ?></p>
+                        <h3><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']) ?></h3>
+                        <p><strong>Time:</strong> <?= date('g:i A', strtotime($row['StartTime'])) ?> - <?= date('g:i A', strtotime($row['EndTime'])) ?></p>
+                        <p><strong>Room:</strong> <?= htmlspecialchars($row['RoomType']) ?></p>
                     </div>
                 <?php endwhile; ?>
             </div>

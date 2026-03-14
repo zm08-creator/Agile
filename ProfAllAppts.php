@@ -8,20 +8,19 @@ if (isset($_GET["logout"])) {
     exit;
 }
 
-// Check if user is logged in as practitioner/professional
-if (!isset($_SESSION["user_id"]) || !in_array($_SESSION["role"], ['practitioner', 'professional'])) {
+// Check if user is logged in as doctor
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'doctor') {
     header("Location: Login.php");
     exit;
 }
 
 require_once "config/db.php";
 
-// Get ALL appointments from bookings table (no doctor filter for test system)
 $stmt = $conn->prepare("
-    SELECT b.*, p.first_name, p.last_name, p.phone_num
-    FROM bookings b 
-    JOIN patients p ON b.patient_id = p.patient_id
-    ORDER BY b.date DESC, b.start_time ASC
+    SELECT b.*, p.FirstName, p.LastName, p.PhoneNum
+    FROM Bookings b 
+    JOIN Patient p ON b.PatientID = p.PatientID
+    ORDER BY b.Date DESC, b.StartTime ASC
 ");
 $stmt->execute();
 $result = $stmt->get_result();
@@ -82,7 +81,6 @@ $stmt->close();
     </div>
 </nav>
 
-
     <div class="page-wrapper">
         <div class="container">
             <h1 class="page-title">📋 All Appointments</h1>
@@ -111,10 +109,10 @@ $stmt->close();
                     <tbody>
                         <?php foreach ($appointments as $appt): ?>
                             <tr>
-                                <td><?= htmlspecialchars($appt['first_name'] . ' ' . $appt['last_name']) ?></td>
-                                <td><?= date('d/m/Y', strtotime($appt['date'])) ?></td>
-                                <td><?= date('H:i', strtotime($appt['start_time'])) ?> - <?= date('H:i', strtotime($appt['end_time'])) ?></td>
-                                <td><?= $appt['room_id'] ? 'Room ' . $appt['room_id'] : 'TBD' ?></td>
+                                <td><?= htmlspecialchars($appt['FirstName'] . ' ' . $appt['LastName']) ?></td>
+                                <td><?= date('d/m/Y', strtotime($appt['Date'])) ?></td>
+                                <td><?= date('H:i', strtotime($appt['StartTime'])) ?> - <?= date('H:i', strtotime($appt['EndTime'])) ?></td>
+                                <td><?= $appt['RoomID'] ? 'Room ' . $appt['RoomID'] : 'TBD' ?></td>
                                 <td><?= date('d/m H:i', strtotime($appt['created_at'])) ?></td>
                             </tr>
                         <?php endforeach; ?>
