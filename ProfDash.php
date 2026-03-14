@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-// Handle logout
-if (isset($_GET["logout"])) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
-
-// Check if user is logged in as doctor
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'doctor') {
     header("Location: Login.php");
     exit;
@@ -16,12 +8,25 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'doctor') {
 
 require_once "config/db.php";
 
-$doctor_id = $_SESSION["user_id"];
+$user_id = $_SESSION["user_id"];
+
+// Get the DoctorID linked to this user account
+$stmt = $conn->prepare("SELECT DoctorID FROM Doctor WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    die("No doctor record found for this account. Please contact an administrator.");
+}
+$stmt->bind_result($doctor_id);
+$stmt->fetch();
+$stmt->close();
 
 $today = date('Y-m-d');
 $stmt = $conn->prepare("
     SELECT b.*, p.FirstName as patient_first, p.LastName as patient_last
-    FROM Bookings b 
+    FROM Bookings b
     JOIN Patient p ON b.PatientID = p.PatientID
     WHERE b.DoctorID = ? AND b.Date = ?
     ORDER BY b.StartTime ASC
@@ -29,7 +34,7 @@ $stmt = $conn->prepare("
 $stmt->bind_param("is", $doctor_id, $today);
 $stmt->execute();
 $today_result = $stmt->get_result();
-$today_count = $today_result->num_rows;
+$today_count  = $today_result->num_rows;
 $stmt->close();
 ?>
 
@@ -44,7 +49,6 @@ $stmt->close();
 </head>
 
 <body>
-<!-- PROFESSIONAL NAVBAR -->
 <nav class="prof-navbar">
     <div class="prof-navbar-top">
         <div class="navbar-brand">
@@ -60,13 +64,13 @@ $stmt->close();
                 My Account
                 <i class="fas fa-user-circle"></i>
             </a>
-            <a href="?logout" class="prof-logout-link">
+            <a href="Logout.php" class="prof-logout-link">
                 Logout
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         </div>
     </div>
-    
+
     <div class="prof-navbar-bottom">
         <div class="appointments-dropdown prof-nav-item">
             Appointments
@@ -75,7 +79,6 @@ $stmt->close();
                 <a href="ProfAllAppts.php" class="dropdown-item">All Appointments</a>
             </div>
         </div>
-        
         <a href="#" class="prof-nav-item">User Reports</a>
         <a href="#" class="prof-nav-item">Referrals</a>
         <a href="#" class="prof-nav-item">Advice Sheets</a>
@@ -83,35 +86,32 @@ $stmt->close();
     </div>
 </nav>
 
-    <div class="page-wrapper">
-        <h1 class="page-title">Welcome, <?= htmlspecialchars($_SESSION["username"]) ?>!</h1>
-        <h2 class="page-subtitle">Professional Dashboard</h2>
+<div class="page-wrapper">
+    <h1 class="page-title">Welcome, <?= htmlspecialchars($_SESSION["username"]) ?>!</h1>
+    <h2 class="page-subtitle">Professional Dashboard</h2>
 
-        <!-- TODAY'S APPOINTMENTS SUMMARY -->
-        <div class="today-summary">
-            <h3>📅 Today (<?= date('l, F jS, Y') ?>)</h3>
-            <p>You have <strong><?= $today_count ?></strong> appointments today</p>
-            <?php if ($today_count > 0): ?>
-                <a href="ProfTodayAppts.php" class="btn">View Today's Schedule →</a>
-            <?php endif; ?>
-        </div>
-
-        <div class="dashboard-actions">
-            <a href="ProfTodayAppts.php" class="btn">
-                Today's Appointments
-                <i class="fas fa-calendar-day"></i>
-            </a>
-
-            <a href="ProfAllAppts.php" class="btn back-btn">
-                View All Appointments
-                <i class="fas fa-list"></i>
-            </a>
-
-            <a href="#" class="btn back-btn" onclick="alert('Calendar coming soon!')">
-                Calendar View
-                <i class="fas fa-calendar-alt"></i>
-            </a>
-        </div>
+    <div class="today-summary">
+        <h3>📅 Today (<?= date('l, F jS, Y') ?>)</h3>
+        <p>You have <strong><?= $today_count ?></strong> appointments today</p>
+        <?php if ($today_count > 0): ?>
+            <a href="ProfTodayAppts.php" class="btn">View Today's Schedule →</a>
+        <?php endif; ?>
     </div>
+
+    <div class="dashboard-actions">
+        <a href="ProfTodayAppts.php" class="btn">
+            Today's Appointments
+            <i class="fas fa-calendar-day"></i>
+        </a>
+        <a href="ProfAllAppts.php" class="btn back-btn">
+            View All Appointments
+            <i class="fas fa-list"></i>
+        </a>
+        <a href="#" class="btn back-btn" onclick="alert('Calendar coming soon!')">
+            Calendar View
+            <i class="fas fa-calendar-alt"></i>
+        </a>
+    </div>
+</div>
 </body>
 </html>
