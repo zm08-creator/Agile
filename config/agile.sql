@@ -83,28 +83,36 @@ CREATE TABLE `Bookings` (
   CONSTRAINT `bookings_ibfk_3` FOREIGN KEY (`RoomID`) REFERENCES `Room` (`RoomID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Insert sample users (explicit IDs so doctor/patient links are predictable)
+-- Insert users
 INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `role`) VALUES
-(1, 'patient', 'patient@healthmatters.com', '$2y$10$J.iiwVNz.tyWx7k.7IHx1OPcXQRaRDTAuPI2mnatQA3AIGAGfAlzi', 'patient'),
-(2, 'professional', 'professional@healthmatters.com', '$2y$10$8DqYDOZXiHhJDiys/QtCueVtFb1yMuznlj9RvjqQ7J9ASMcWbflcC', 'doctor'),
-(3, 'admin', 'admin@healthmatters.com', '$2y$10$up5KxonpX/Uq8qhABzgv8eUX20JqzxnDriPSKl2FQAOWp9kyD3XlC', 'admin');
+(1,  'JBennet',   'jbennet@healthmatters.com',   '$2b$12$8CEGARFSqrXewHc5gSJsyeTfCOMkUMiYV6Nul0VuWDtgotDOEww5a', 'patient'),
+(2,  'CAnderson', 'canderson@healthmatters.com', '$2b$12$dgToLQFnefoDMlYW588fZ.4hdAT0GWGgrVOtryyw5RkHiU/Mbyph2', 'patient'),
+(3,  'SIqbal',    'siqbal@healthmatters.com',    '$2b$12$hOotVg335TRHRwqE4/iTW.r7bKtWzGdUsyzBTrgUIVKOhAu3DkeBi', 'patient'),
+(4,  'AKhan',     'akhan@healthmatters.com',     '$2b$12$nd6epsjWeDRYhgce358OL.7f2Z/89equl/TV7jjOyHcqmbdxsgDdO', 'doctor'),
+(5,  'GPalmer',   'gpalmer@healthmatters.com',   '$2b$12$qEJiJ6UHqt2gixEXh81woO.PqSTQbYuQere5sLc3AEp0PynBuzS7K', 'doctor'),
+(6,  'RWhite',    'rwhite@healthmatters.com',    '$2b$12$cjIHu7qNBfHH9r4HYcFWcekm5pMAZLn4LHDJodWbPr4HclO.G2Al2', 'doctor'),
+(7,  'ECarter',   'ecarter@healthmatters.com',   '$2b$12$BMLi7hlzJgcdAYOt7X4mY.3Vi9TBDvASDtcwyGnIbz.e5ItknkDHa', 'admin'),
+(8,  'SDesai',    'sdesai@healthmatters.com',    '$2b$12$tTY9FGcH47tWacMAnmgQceexdt3MajtEzx41.faeYstpCnIy4tlW6', 'admin'),
+(9,  'FMalik',    'fmalik@healthmatters.com',    '$2b$12$G4G00ciT5UMvB7Aew/4oWOfpr9hxgSI1wCikkKjcfJjN4BZIZXNZG', 'admin');
 
--- Insert sample rooms
-INSERT INTO `Room` (`RoomType`, `Department`) VALUES
-('Consultation Room', 'General'),
-('Treatment Room', 'Surgery'),
-('Examination Room', 'General');
-
--- Insert sample doctor (linked to professional user)
+-- Insert doctors (linked to their user accounts)
 INSERT INTO `Doctor` (`FirstName`, `LastName`, `PhoneNum`, `specialty`, `user_id`) VALUES
-('Sophie', 'Williams', '0987654321', 'General Practitioner', 2);
+('Adil',    'Khan',   '01772100001', 'General Practitioner', 4),
+('Grace',   'Palmer', '01772100002', 'General Practitioner', 5),
+('Rebecca', 'White',  '01772100003', 'General Practitioner', 6);
+
+-- Insert rooms
+INSERT INTO `Room` (`RoomType`, `Department`) VALUES
+('Consultation Room 1', 'General Practice'),
+('Consultation Room 2', 'General Practice'),
+('Consultation Room 3', 'General Practice');
 
 -- AUTO_INCREMENT settings
-ALTER TABLE `users` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-ALTER TABLE `Room` MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-ALTER TABLE `Doctor` MODIFY `DoctorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-ALTER TABLE `Patient` MODIFY `PatientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `users`    MODIFY `id`        int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `Doctor`   MODIFY `DoctorID`  int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `Patient`  MODIFY `PatientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 ALTER TABLE `Bookings` MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `Room`     MODIFY `RoomID`    int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 COMMIT;
 
