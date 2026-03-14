@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-// Handle logout
-if (isset($_GET["logout"])) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
-
 // Check if user is logged in and is a patient
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     header("Location: Login.php");
@@ -66,7 +59,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
                 Book New Appointment
             </a>
             
-            <a href="Appointments.php" class="btn back-btn">
+            <a href="PatientAppts.php" class="btn back-btn">
                 View My Appointments
             </a>
 
@@ -74,7 +67,6 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
                 View My Details
             </a>
 
-            <!-- Cancel Appointment Button -->
             <a href="CancelAppt.php" class="btn cancel-btn">
                 Cancel Appointment
             </a>
