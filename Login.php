@@ -1,5 +1,4 @@
 <?php
-// Enable error reporting (for development)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -19,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($username === "" || $password === "") {
         $error = "Please enter username and password.";
     } else {
-        $stmt = $conn->prepare("SELECT id, password_hash FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, password_hash, role FROM users WHERE username = ?");
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
         }
@@ -29,28 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->store_result();
 
         if ($stmt->num_rows === 1) {
-            $stmt->bind_result($id, $password_hash);
+            $stmt->bind_result($id, $password_hash, $role);
             $stmt->fetch();
 
             if (password_verify($password, $password_hash)) {
-                $role_query = $conn->prepare("SELECT role FROM users WHERE id = ?");
-                $role_query->bind_param("i", $id);
-                $role_query->execute();
-                $role_result = $role_query->get_result();
-                
-                if ($role_result->num_rows > 0) {
-                    $user = $role_result->fetch_assoc();
-                    $role = $user['role'] ?? 'unknown';
-                } else {
-                    switch ($username) {
-                        case "Patient": case "patient": $role = "patient"; break;
-                        case "Professional": case "professional": $role = "doctor"; break;
-                        case "Admin": case "admin": $role = "admin"; break;
-                        default: $role = "unknown";
-                    }
-                }
-                $role_query->close();
-
                 $_SESSION["user_id"] = $id;
                 $_SESSION["username"] = $username;
                 $_SESSION["role"] = $role;
@@ -92,13 +73,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <nav class="patient-navbar">
-
         <div class="navbar-top">
             <div class="navbar-brand">
                 <img src="logo.jpg" alt="UCLan Logo" class="uclan-logo">
                 <h1 class="site-title">HEALTH MATTERS</h1>
             </div>
-
             <div class="navbar-right">
                 <div class="nav-search">
                     <i class="fas fa-search"></i>
