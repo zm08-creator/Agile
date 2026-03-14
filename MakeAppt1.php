@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-// Handle logout
-if (isset($_GET["logout"])) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
-
-// Check if user is logged in and is a patient
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     header("Location: Login.php");
     exit;
@@ -16,44 +8,58 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
 
 require_once "config/db.php";
 
-if (!isset($_SESSION["appointment"])) {
-    $_SESSION["appointment"] = [];
-}
-
 $errors = [];
+$user_id = $_SESSION["user_id"];
 
-$name = $_POST["name"] ?? "";
-$dob = $_POST["dob"] ?? "";
-$address = $_POST["address"] ?? "";
-$location = $_POST["location"] ?? "";
+// Check if a Patient record already exists for this user
+$stmt = $conn->prepare("SELECT PatientID, FirstName, LastName FROM Patient WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->store_result();
+
+$existingPatient = null;
+if ($stmt->num_rows === 1) {
+    $stmt->bind_result($existingPatientID, $existingFirstName, $existingLastName);
+    $stmt->fetch();
+    $existingPatient = [
+        "id"   => $existingPatientID,
+        "name" => $existingFirstName . " " . $existingLastName
+    ];
+}
+$stmt->close();
+
+$name       = $_POST["name"]       ?? ($existingPatient ? $existingPatient["name"] : "");
+$location   = $_POST["location"]   ?? "";
 $discussion = $_POST["discussion"] ?? "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (!$name) $errors[] = "Name is required.";
-    if (!$dob) $errors[] = "Date of Birth is required.";
-    if (!$address) $errors[] = "Address is required.";
-    if (!$location) $errors[] = "Preferred location is required.";
-    if (!$discussion) $errors[] = "Discussion details are required.";
+    if (!$name)       $errors[] = "Name is required.";
+    if (!$location)   $errors[] = "Preferred location is required.";
+    if (!$discussion) $errors[] = "Reason for visit is required.";
 
     if (empty($errors)) {
-        // **SAVE TO PATIENTS TABLE** (link to logged-in user)
-        $patient_id = $_SESSION["user_id"];
-        
-        $stmt = $conn->prepare("INSERT INTO patients (patient_id, first_name, last_name, phone_num) VALUES (?, ?, ?, '') ON DUPLICATE KEY UPDATE first_name = ?, last_name = ?");
-        $first_last = explode(' ', $name, 2);
-        $first_name = $first_last[0] ?? '';
-        $last_name = $first_last[1] ?? '';
-        $stmt->bind_param("isssi", $patient_id, $first_name, $last_name, $first_name, $last_name);
-        $stmt->execute();
-        $stmt->close();
+        $nameParts = explode(' ', trim($name), 2);
+        $firstName = $nameParts[0] ?? '';
+        $lastName  = $nameParts[1] ?? '';
 
-        // **STORE ALL YOUR ORIGINAL FIELDS IN SESSION**
+        if ($existingPatient) {
+            $stmt = $conn->prepare("UPDATE Patient SET FirstName = ?, LastName = ? WHERE user_id = ?");
+            $stmt->bind_param("ssi", $firstName, $lastName, $user_id);
+            $stmt->execute();
+            $stmt->close();
+            $patientID = $existingPatient["id"];
+        } else {
+            $stmt = $conn->prepare("INSERT INTO Patient (FirstName, LastName, PhoneNum, user_id) VALUES (?, ?, '', ?)");
+            $stmt->bind_param("ssi", $firstName, $lastName, $user_id);
+            $stmt->execute();
+            $patientID = $conn->insert_id;
+            $stmt->close();
+        }
+
         $_SESSION["appointment"] = [
-            "patient_id" => $patient_id,
-            "full_name" => $name,
-            "dob" => $dob,
-            "address" => $address,
-            "location" => $location,
+            "patient_id" => $patientID,
+            "full_name"  => $name,
+            "location"   => $location,
             "discussion" => $discussion
         ];
 
@@ -73,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-    <!-- YOUR NAVBAR EXACTLY AS-IS -->
     <nav class="patient-navbar">
         <div class="navbar-top">
             <div class="navbar-brand">
@@ -89,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
-                <a href="?logout" class="my-account-link">
+                <a href="Logout.php" class="my-account-link">
                     Logout
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
@@ -122,24 +127,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required value="<?= htmlspecialchars($dob) ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="address">Home Address:</label>
-                <textarea id="address" name="address" required><?= htmlspecialchars($address) ?></textarea>
-            </div>
-
-            <div class="form-group">
                 <label>Preferred Location:</label>
-                <label><input type="radio" name="location" value="preston" <?= $location === "preston" ? "checked" : "" ?> required> Preston</label>
-                <label><input type="radio" name="location" value="burnley" <?= $location === "burnley" ? "checked" : "" ?>> Burnley</label>
+                <label><input type="radio" name="location" value="preston"    <?= $location === "preston"    ? "checked" : "" ?> required> Preston</label>
+                <label><input type="radio" name="location" value="burnley"    <?= $location === "burnley"    ? "checked" : "" ?>> Burnley</label>
                 <label><input type="radio" name="location" value="west-lakes" <?= $location === "west-lakes" ? "checked" : "" ?>> West Lakes</label>
             </div>
 
             <div class="form-group">
-                <label for="discussion">What would you like to discuss?</label>
+                <label for="discussion">Reason for visit:</label>
                 <textarea id="discussion" name="discussion" required><?= htmlspecialchars($discussion) ?></textarea>
             </div>
 
