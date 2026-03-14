@@ -8,25 +8,23 @@ if (isset($_GET["logout"])) {
     exit;
 }
 
-// Check if user is logged in as practitioner/professional
-if (!isset($_SESSION["user_id"]) || !in_array($_SESSION["role"], ['practitioner', 'professional'])) {
+// Check if user is logged in as doctor
+if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'doctor') {
     header("Location: Login.php");
     exit;
 }
 
 require_once "config/db.php";
 
-// Get professional's doctor_id (links user_id → doctors table)
-$doctor_id = $_SESSION["user_id"];  // user_id = doctor_id for test system
+$doctor_id = $_SESSION["user_id"];
 
-// Get today's appointments for this doctor
 $today = date('Y-m-d');
 $stmt = $conn->prepare("
-    SELECT b.*, p.first_name as patient_first, p.last_name as patient_last
-    FROM bookings b 
-    JOIN patients p ON b.patient_id = p.patient_id
-    WHERE b.doctor_id = ? AND b.date = ?
-    ORDER BY b.start_time ASC
+    SELECT b.*, p.FirstName as patient_first, p.LastName as patient_last
+    FROM Bookings b 
+    JOIN Patient p ON b.PatientID = p.PatientID
+    WHERE b.DoctorID = ? AND b.Date = ?
+    ORDER BY b.StartTime ASC
 ");
 $stmt->bind_param("is", $doctor_id, $today);
 $stmt->execute();
@@ -84,8 +82,6 @@ $stmt->close();
         <a href="#" class="prof-nav-item">Notifications</a>
     </div>
 </nav>
-
-
 
     <div class="page-wrapper">
         <h1 class="page-title">Welcome, <?= htmlspecialchars($_SESSION["username"]) ?>!</h1>

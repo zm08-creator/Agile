@@ -33,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->fetch();
 
             if (password_verify($password, $password_hash)) {
-                // ADD ROLE TO DATABASE - we'll create this column
                 $role_query = $conn->prepare("SELECT role FROM users WHERE id = ?");
                 $role_query->bind_param("i", $id);
                 $role_query->execute();
@@ -43,10 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $user = $role_result->fetch_assoc();
                     $role = $user['role'] ?? 'unknown';
                 } else {
-                    // Fallback for existing users
                     switch ($username) {
                         case "Patient": case "patient": $role = "patient"; break;
-                        case "Professional": case "professional": $role = "practitioner"; break;
+                        case "Professional": case "professional": $role = "doctor"; break;
                         case "Admin": case "admin": $role = "admin"; break;
                         default: $role = "unknown";
                     }
@@ -57,12 +55,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["username"] = $username;
                 $_SESSION["role"] = $role;
 
-                // Role-based redirect after login
                 switch ($role) {
                     case "patient":
                         header("Location: PatientDash.php");
                         break;
-                    case "practitioner":
+                    case "doctor":
                         header("Location: ProfDash.php");
                         break;
                     case "admin":
@@ -94,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-    <!-- PATIENT NAVBAR -->
     <nav class="patient-navbar">
 
         <div class="navbar-top">
