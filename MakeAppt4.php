@@ -37,6 +37,23 @@ if (isset($_SESSION["booking_confirmation"])) {
     $start_time = $time . ":00";
     $end_time   = date('H:i:s', strtotime($time . ":00 +1 hour"));
 
+    // Check if patient already has a booking at this date and time
+    $stmt = $conn->prepare("
+        SELECT BookingID FROM Bookings
+        WHERE PatientID = ? AND Date = ? AND StartTime = ?
+    ");
+    $stmt->bind_param("iss", $patient_id, $date, $start_time);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $_SESSION["appt_error"] = "You already have an appointment at this time. Please choose a different slot.";
+        $stmt->close();
+        header("Location: MakeAppt3.php");
+        exit;
+    }
+    $stmt->close();
+
     // Find an available doctor for this date and time slot
     $stmt = $conn->prepare("
         SELECT DoctorID FROM Doctor

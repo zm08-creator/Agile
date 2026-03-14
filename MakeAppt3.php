@@ -1,29 +1,25 @@
 <?php
 session_start();
 
-// Handle logout
-if (isset($_GET["logout"])) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
-
-// Check if user is logged in and is a patient
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     header("Location: Login.php");
     exit;
 }
 
-if (!isset($_SESSION["appointment"]) || !isset($_SESSION["appointment"]["appt_date"])) {
+if (!isset($_SESSION["appointment"]["appt_date"])) {
     header("Location: MakeAppt1.php");
     exit;
 }
 
-require_once "config/db.php";
-
 $errors = [];
 $apptTime = $_POST["time_slot"] ?? "";
 $apptDate = $_SESSION["appointment"]["appt_date"];
+
+// Show error passed back from MakeAppt4
+if (isset($_SESSION["appt_error"])) {
+    $errors[] = $_SESSION["appt_error"];
+    unset($_SESSION["appt_error"]);
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!$apptTime) {
@@ -48,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-    <!-- YOUR NAVBAR EXACTLY AS-IS -->
     <nav class="patient-navbar">
         <div class="navbar-top">
             <div class="navbar-brand">
@@ -64,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     My Account
                     <i class="fas fa-user-circle"></i>
                 </a>
-                <a href="?logout" class="my-account-link">
+                <a href="Logout.php" class="my-account-link">
                     Logout
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
@@ -93,32 +88,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post" action="MakeAppt3.php">
             <div class="form-group">
                 <label>Choose your preferred time slot:</label>
-                
+
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="09:00" <?= $apptTime === "09:00" ? "checked" : "" ?> required>
                     9:00 AM – 10:00 AM
                 </label>
-
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="10:00" <?= $apptTime === "10:00" ? "checked" : "" ?>>
                     10:00 AM – 11:00 AM
                 </label>
-
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="11:00" <?= $apptTime === "11:00" ? "checked" : "" ?>>
                     11:00 AM – 12:00 PM
                 </label>
-
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="14:00" <?= $apptTime === "14:00" ? "checked" : "" ?>>
                     2:00 PM – 3:00 PM
                 </label>
-
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="15:00" <?= $apptTime === "15:00" ? "checked" : "" ?>>
                     3:00 PM – 4:00 PM
                 </label>
-
                 <label class="time-slot">
                     <input type="radio" name="time_slot" value="16:00" <?= $apptTime === "16:00" ? "checked" : "" ?>>
                     4:00 PM – 5:00 PM

@@ -56,12 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->close();
         }
 
-        $_SESSION["appointment"] = [
-            "patient_id" => $patientID,
-            "full_name"  => $name,
-            "location"   => $location,
-            "discussion" => $discussion
-        ];
+    $_SESSION["appointment"] = [
+        "patient_id" => $patientID,
+        "full_name"  => $name,
+        "location"   => $location,
+        "discussion" => $discussion
+    ];
+    unset($_SESSION["appt_error"]); // ← add this line
 
         header("Location: MakeAppt2.php");
         exit;
